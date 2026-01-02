@@ -4,17 +4,7 @@ from scipy.stats import poisson
 from matplotlib import pyplot as plt
 import streamlit as st
 
-st.set_page_config(layout="wide")
-st.markdown("""
-    <style>
-    /* Supprime les marges sur smartphone */
-    .main .block-container {
-        padding-left: 0rem;
-        padding-right: 0rem;
-        max-width: 100%;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+
 
 #Calendrier
 calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv')

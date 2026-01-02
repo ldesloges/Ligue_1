@@ -278,7 +278,7 @@ LOGOS = {
     "Strasbourg": encoder_svg_local("include/Strasbourg.svg"),
     "Lille": encoder_svg_local("include/Lille.svg"),
     "Paris FC": "https://upload.wikimedia.org/wikipedia/fr/d/db/Logo_Paris_FC_2011.svg",
-    "Toulouse":encoder_svg_local("../include/Toulouse.svg")
+    "Toulouse":encoder_svg_local("include/Toulouse.svg")
     # ... et ainsi de suite
 }
 
@@ -343,7 +343,7 @@ fig.update_layout(
     title_x=0.5,
     yaxis=dict(autorange="reversed", range=[18.5, 0.5], dtick=1, title="Rang"),
     xaxis=dict(range=[1, 35], dtick=1, title="Journée"),
-    height=400,
+    height=900,
     width=900,
     template="plotly_white",
     

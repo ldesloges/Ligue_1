@@ -354,7 +354,7 @@ fig.update_layout(
     updatemenus=[dict(
         type="buttons",
         showactive=False,
-        x=-0.1, y=1.1,
+        x=-0.1, y=1.2,
         buttons=[dict(
             label="▶ Lancer la simulation",
             method="animate",

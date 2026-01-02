@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 import streamlit as st
 
 #Calendrier
-calendrier_25_26=pd.read_csv(f'../data/calendrier_25_26.csv')
+calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv')
 calendrier_25_26=calendrier_25_26[['wk','HomeTeam','AwayTeam']]
 
 

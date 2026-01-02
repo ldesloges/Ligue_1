@@ -325,7 +325,7 @@ for i in range(len(liste_classements)):
                 source=LOGOS[team],
                 xref="x", yref="y",
                 x=x_pos, y=y_pos,
-                sizex=1, sizey=1,
+                sizex=2, sizey=2,
                 xanchor="center", yanchor="middle",
                 layer="above"
             ))

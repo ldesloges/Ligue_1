@@ -347,16 +347,8 @@ fig.update_layout(
     width=900,
     template="plotly_white",
     margin=dict(l=0, r=0, t=40, b=0),
+    showlegend=False,
     
-    # --- LIGNES DE DÉMARCATION ---
-    shapes=[
-        # Limite LDC (Top 3/4)
-        dict(type="line", x0=1, x1=34, y0=3.5, y1=3.5, 
-             line=dict(color="rgba(0, 0, 255, 0.5)", width=2, dash="dash")),
-        # Limite Relégation (Bas de tableau)
-        dict(type="line", x0=1, x1=34, y0=15.5, y1=15.5, 
-             line=dict(color="rgba(255, 0, 0, 0.5)", width=2, dash="dash")),
-    ],
 
     updatemenus=[dict(
         type="buttons",

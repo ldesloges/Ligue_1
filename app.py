@@ -344,6 +344,7 @@ fig.update_layout(
     yaxis=dict(autorange="reversed", range=[18.5, 0.5], dtick=1, title="Rang"),
     xaxis=dict(range=[1, 35], dtick=1, title="Journée",domain=[0, 1]),
     height=900,
+    width=800,
     template="plotly_white",
     margin=dict(l=10, r=10, t=80, b=0),
     showlegend=False,
@@ -376,4 +377,4 @@ fig.add_hrect(y0=3.5, y1=5.5, fillcolor="violet", opacity=0.08,
               annotation_text="LIGUE EUROPA", annotation_position="inside right")
 
 
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, use_container_width=False)

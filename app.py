@@ -278,7 +278,7 @@ LOGOS = {
     "Strasbourg": encoder_svg_local("include/Strasbourg.svg"),
     "Lille": encoder_svg_local("include/Lille.svg"),
     "Paris FC": "https://upload.wikimedia.org/wikipedia/fr/d/db/Logo_Paris_FC_2011.svg",
-    "Toulouse":encoder_svg_local("../include/Toulouse.svg")
+    "Toulouse":encoder_svg_local("include/Toulouse.svg")
     # ... et ainsi de suite
 }
 

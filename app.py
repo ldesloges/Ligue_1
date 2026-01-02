@@ -248,6 +248,7 @@ def tracer_evolution_classement(TEAMS):
 
 #tracer_evolution_classement(creer_historique_par_club(simuler_saison_et_tracker_rangs(calendrier_25_26),TEAMS))
 
+import plotly.express as px
 
 import base64
 

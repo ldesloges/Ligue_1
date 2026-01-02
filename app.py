@@ -345,7 +345,7 @@ fig.update_layout(
     xaxis=dict(range=[1, 35], dtick=1, title="Journée",domain=[0, 1]),
     height=900,
     template="plotly_white",
-    margin=dict(l=0, r=0, t=40, b=0),
+    margin=dict(l=10, r=10, t=80, b=0),
     showlegend=False,
     
 

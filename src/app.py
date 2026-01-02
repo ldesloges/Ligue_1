@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from scipy.stats import poisson
 from matplotlib import pyplot as plt
+import streamlit as st
 
 #Calendrier
 calendrier_25_26=pd.read_csv(f'../data/calendrier_25_26.csv')
@@ -382,4 +383,4 @@ fig.add_hrect(y0=3.5, y1=5.5, fillcolor="violet", opacity=0.08,
               annotation_text="LIGUE EUROPA", annotation_position="inside right")
 
 
-fig.show()
+st.plotly_chart(fig, use_container_width=True)

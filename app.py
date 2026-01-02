@@ -341,7 +341,7 @@ fig.frames = frames
 fig.update_layout(
     title="Simulation Ligue 1 McDonald 2025-2026",
     title_x=0,
-    yaxis=dict(autorange="reversed", range=[18.5, 0.5], dtick=1, title="Rang"),
+    yaxis=dict(autorange="reversed", range=[18, 1], dtick=1, title="Rang"),
     xaxis=dict(range=[1, 35], dtick=1, title="Journée",domain=[0, 1]),
     height=800,
     width=800,

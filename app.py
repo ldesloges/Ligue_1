@@ -346,6 +346,7 @@ fig.update_layout(
     height=900,
     width=900,
     template="plotly_white",
+    margin=dict(l=0, r=0, t=40, b=0),
     
     # --- LIGNES DE DÉMARCATION ---
     shapes=[

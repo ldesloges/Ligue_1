@@ -352,7 +352,7 @@ fig.frames = frames
 # 5. CONFIGURATION DU LAYOUT AVEC GLISSEMENT FLUIDE
 fig.update_layout(
     title="Simulation Ligue 1 McDonald 2025-2026",
-    title_x=0,
+    title_x=0.1,
     yaxis=dict(autorange="reversed", range=[18, 1], dtick=1, title="Rang"),
     xaxis=dict(range=[1, 35], dtick=1, title="Journée",domain=[0, 1]),
     height=800,
@@ -365,7 +365,7 @@ fig.update_layout(
     updatemenus=[dict(
         type="buttons",
         showactive=False,
-        x=-0.1, y=1.2,
+        x=0, y=1.3,
         buttons=[dict(
             label="▶ Lancer la simulation",
             method="animate",

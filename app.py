@@ -346,8 +346,8 @@ fig.update_layout(
     height=800,
     width=800,
     template="plotly_white",
-    margin=dict(l=0, r=10, t=80, b=0),
     showlegend=False,
+    margin=dict(l=10, r=0, t=100, b=0),
     
 
     updatemenus=[dict(

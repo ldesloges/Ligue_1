@@ -343,7 +343,7 @@ fig.update_layout(
     title_x=0.5,
     yaxis=dict(autorange="reversed", range=[18.5, 0.5], dtick=1, title="Rang"),
     xaxis=dict(range=[1, 35], dtick=1, title="Journée"),
-    height=800,
+    height=500,
     width=900,
     template="plotly_white",
     

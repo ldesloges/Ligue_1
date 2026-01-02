@@ -22,7 +22,7 @@ data_historique = pd.concat(tous_les_matchs, ignore_index=True)
 HOME_GOALS_MEAN_GLOBAL = data_historique['HomeGoals'].mean()
 AWAY_GOALS_MEAN_GLOBAL = data_historique['AwayGoals'].mean()
 
-Ligue1_25_26=pd.read_csv(f'../data/L1_25_26.csv')
+Ligue1_25_26=pd.read_csv(f'data/L1_25_26.csv')
 toutes_equipes = pd.concat([Ligue1_25_26['HomeTeam'], Ligue1_25_26['AwayTeam']]).unique()
 TEAMS = list(toutes_equipes)
 

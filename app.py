@@ -278,7 +278,7 @@ LOGOS = {
     "Strasbourg": encoder_svg_local("include/Strasbourg.svg"),
     "Lille": encoder_svg_local("include/Lille.svg"),
     "Paris FC": "https://upload.wikimedia.org/wikipedia/fr/d/db/Logo_Paris_FC_2011.svg",
-    "Toulouse":encoder_svg_local("include/Toulouse.svg")
+    "Toulouse":encoder_svg_local("../include/Toulouse.svg")
     # ... et ainsi de suite
 }
 
@@ -344,6 +344,7 @@ fig.update_layout(
     yaxis=dict(autorange="reversed", range=[18.5, 0.5], dtick=1, title="Rang"),
     xaxis=dict(range=[1, 35], dtick=1, title="Journée"),
     height=800,
+    width=900,
     template="plotly_white",
     
     # --- LIGNES DE DÉMARCATION ---
@@ -383,4 +384,4 @@ fig.add_hrect(y0=3.5, y1=5.5, fillcolor="violet", opacity=0.08,
               annotation_text="LIGUE EUROPA", annotation_position="inside right")
 
 
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, use_container_width=False)

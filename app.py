@@ -6,6 +6,8 @@ import streamlit as st
 
 
 import base64
+
+
 #Calendrier
 calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv')
 calendrier_25_26=calendrier_25_26[['wk','HomeTeam','AwayTeam']]
@@ -16,7 +18,22 @@ def encoder_svg_local(chemin_fichier):
         base64_string = base64.b64encode(image_data).decode("utf-8")
         return f"data:image/svg+xml;base64,{base64_string}"
 
+# 1. On définit d'abord la variable (en dehors de st.markdown)
+# Assure-toi que le chemin vers ton image est correct
+logo_ligue1 = encoder_svg_local("include/data/image.png")
 
+# 2. On appelle st.markdown ensuite
+st.markdown(
+    f"""
+    <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 30px;">
+        <img src="{logo_ligue1}" width="100">
+        <h1 style="margin: 0; font-weight: 800; color: #1d3557; font-size: 3.5em; font-family: sans-serif;">
+            PROJET LIGUE 1 DATA
+        </h1>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 LOGOS = {
     "Paris SG": encoder_svg_local("include/PSG.svg"),

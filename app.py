@@ -278,34 +278,65 @@ def tracer_evolution_classement(TEAMS):
     plt.tight_layout()
     plt.show()
 
-def simuler_monte_carlo(n_simulations=100):
-    # Dictionnaire pour stocker les positions finales de chaque équipe
-    resultats_positions = {team: [] for team in TEAMS}
+def simuler_monte_carlo(n_simulations=1000):
+    # 1. Pré-calcul des capacités pour éviter de chercher dans le dictionnaire Capacity à chaque match
+    # Format : { Equipe: (Capa_Buts_Dom, Capa_Buts_Ext, Capa_Pris_Dom, Capa_Pris_Ext) }
+    capa_fast = {t: (
+        Capacity[t]['Home_goals_capacity'], 
+        Capacity[t]['Away_goals_capacity'],
+        Capacity[t]['Home_taken_capacity'], 
+        Capacity[t]['Away_taken_capacity']
+    ) for t in TEAMS}
+
+    # 2. Conversion du calendrier en liste de tuples (plus rapide que de lire le DataFrame)
+    matchs_liste = list(calendrier_25_26[['HomeTeam', 'AwayTeam']].itertuples(index=False, name=None))
     
+    resultats_positions = {team: [] for team in TEAMS}
     progress_bar = st.progress(0)
-    status_text = st.empty()
 
     for i in range(n_simulations):
-        # On réinitialise un classement vierge à chaque simulation
-        df_simu = pd.DataFrame({
-            'Equipe': TEAMS, 'Pts': 0, 'Joués': 0, 'G': 0, 'N': 0, 'P': 0, 'BP': 0, 'BC': 0, 'Diff': 0
-        }).set_index('Equipe')
+        # On utilise un dictionnaire simple {Equipe: [Points, Diff, ButsPour]}
+        # On ne touche pas au DataFrame Pandas ici pour gagner du temps
+        scores = {team: [0, 0, 0] for team in TEAMS}
 
-        # On simule tous les matchs du calendrier
-        for _, match in calendrier_25_26.iterrows():
-            df_simu = mettre_a_jour_classement(df_simu, match['HomeTeam'], match['AwayTeam'])
+        for h_team, a_team in matchs_liste:
+            # Récupération ultra-rapide des capacités
+            c_h = capa_fast[h_team]
+            c_a = capa_fast[a_team]
+
+            # Calcul des lambdas
+            l_dom = HOME_GOALS_MEAN_GLOBAL * c_h[0] * c_a[3]
+            l_ext = AWAY_GOALS_MEAN_GLOBAL * c_a[1] * c_h[2]
+
+            # Simulation des buts (NumPy génère les deux d'un coup)
+            b_h, b_a = np.random.poisson([l_dom, l_ext])
+
+            # Mise à jour des points
+            if b_h > b_a:
+                scores[h_team][0] += 3
+            elif b_a > b_h:
+                scores[a_team][0] += 3
+            else:
+                scores[h_team][0] += 1
+                scores[a_team][0] += 1
+            
+            # Mise à jour Diff et BP
+            scores[h_team][1] += (b_h - b_a)
+            scores[h_team][2] += b_h
+            scores[a_team][1] += (b_a - b_h)
+            scores[a_team][2] += b_a
+
+        # Tri du classement (Critères : Points, puis Diff, puis BP)
+        # sorted() est extrêmement performant en Python
+        classement_trie = sorted(scores.items(), key=lambda x: (x[1][0], x[1][1], x[1][2]), reverse=True)
         
-        # On trie pour avoir le classement final de cette simulation
-        classement_final = afficher_classement_final(df_simu)
-        
-        # On enregistre le rang de chaque équipe
-        for team in TEAMS:
-            rang = classement_final.index.get_loc(team) + 1
+        # Enregistrement des rangs
+        for rang, (team, _) in enumerate(classement_trie, 1):
             resultats_positions[team].append(rang)
         
-        # Mise à jour barre de progression
-        progress_bar.progress((i + 1) / n_simulations)
-        status_text.text(f"Simulation Monte-Carlo : {i+1}/{n_simulations}")
+        # Mise à jour de la barre toutes les 10 simulations pour ne pas ralentir l'affichage
+        if i % 10 == 0 or i == n_simulations - 1:
+            progress_bar.progress((i + 1) / n_simulations)
 
     return resultats_positions
 

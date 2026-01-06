@@ -437,11 +437,6 @@ if st.button("Lancer l'Analyse Statistique", key="bouton_stats_1"):
 
 
 st.divider()
-st.header("🎲 Analyse Prédictive (Monte-Carlo)")
-
-n_simu = st.slider("Nombre de simulations", min_value=10, max_value=1000, value=100, key="mc_slider")
-
-st.divider()
 st.header("⚽ Simulateur de Match Unique")
 
 col1, col2 = st.columns(2)

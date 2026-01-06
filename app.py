@@ -398,7 +398,7 @@ st.header("🎲 Analyse Prédictive (Monte-Carlo)")
 
 n_simu = st.slider("Nombre de simulations", min_value=10, max_value=1000, value=100)
 
-if st.button("Lancer l'Analyse Statistique"):
+if st.button("Lancer l'Analyse Statistique", key="bouton_stats_1"):
     with st.spinner('Calcul des probabilités en cours...'):
         resultats = simuler_monte_carlo(n_simu)
         df_stats = calculer_stats_probabilites(resultats, n_simu)
@@ -420,7 +420,7 @@ st.header("🎲 Analyse Prédictive (Monte-Carlo)")
 
 n_simu = st.slider("Nombre de simulations", min_value=10, max_value=1000, value=100, key="mc_slider")
 
-if st.button("Lancer l'Analyse Statistique"):
+if st.button("Lancer l'Analyse Statistique", key="bouton_stats_2"):
     with st.spinner(f'Calcul de {n_simu} simulations en cours...'):
         # 1. Génération des données
         resultats = simuler_monte_carlo(n_simu)
@@ -445,7 +445,7 @@ if st.button("Lancer l'Analyse Statistique"):
         # Petit récapitulatif textuel
         top_team = df_stats.index[0]
         st.info(f"💡 D'après les simulations, **{top_team}** a la plus forte probabilité de finir champion ({df_stats.loc[top_team, 'Champion (%)']:.1f}%).")
-        
+
 st.divider()
 st.header("⚽ Simulateur de Match Unique")
 

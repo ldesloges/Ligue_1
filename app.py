@@ -355,6 +355,40 @@ def calculer_stats_probabilites(resultats_positions, n_simulations):
     
     return pd.DataFrame(stats).sort_values(by='Champion (%)', ascending=False).set_index('Equipe')
 
+
+import plotly.express as px
+
+def tracer_heatmap_probabilites(resultats_positions):
+    # 1. Préparation de la matrice (18 équipes x 18 positions)
+    nb_equipes = len(TEAMS)
+    matrix_data = []
+    
+    for team in TEAMS:
+        rangs = resultats_positions[team]
+        # On compte l'occurrence de chaque rang de 1 à 18
+        comptage = [rangs.count(pos) / len(rangs) * 100 for pos in range(1, nb_equipes + 1)]
+        matrix_data.append(comptage)
+    
+    # 2. Création du graphique
+    fig = px.imshow(
+        matrix_data,
+        labels=dict(x="Position Finale", y="Équipe", color="Probabilité (%)"),
+        x=list(range(1, nb_equipes + 1)),
+        y=TEAMS,
+        color_continuous_scale="Viridis", # Échelle de couleur stylée
+        text_auto=".1f", # Affiche les pourcentages sur les cases
+        aspect="auto"
+    )
+
+    fig.update_layout(
+        title="Probabilités des Positions Finales (Heatmap)",
+        xaxis_title="Rang au classement",
+        yaxis_title="Équipe",
+        height=700
+    )
+    
+    return fig
+
 st.divider()
 st.header("🎲 Analyse Prédictive (Monte-Carlo)")
 
@@ -524,3 +558,16 @@ fig.add_hrect(y0=3.5, y1=5.5, fillcolor="violet", opacity=0.08,
 st.divider()
 st.header("⚽ Simulation de la ligue 1 McDonalds 2025-2026")
 st.plotly_chart(fig, use_container_width=False)
+
+if st.button("Lancer l'Analyse Statistique"):
+    with st.spinner('Calcul des probabilités en cours...'):
+        resultats = simuler_monte_carlo(n_simu) # Ta fonction optimisée
+        
+        # --- NOUVEAU : Affichage de la Heatmap ---
+        st.subheader("Distribution des probabilités de classement")
+        fig_heatmap = tracer_heatmap_probabilites(resultats)
+        st.plotly_chart(fig_heatmap, use_container_width=True)
+        
+        # Ton ancien tableau de stats en dessous
+        df_stats = calculer_stats_probabilites(resultats, n_simu)
+        st.dataframe(df_stats)

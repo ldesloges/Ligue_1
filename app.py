@@ -317,47 +317,50 @@ if st.button("Lancer l'Analyse Statistique"):
         
 st.divider()
 st.header("⚽ Simulateur de Match Unique")
-st.subheader("Testez le modèle sur une affiche personnalisée")
 
 col1, col2 = st.columns(2)
-
 with col1:
-    equipe_a = st.selectbox("Équipe Domicile", TEAMS, index=0)
+    equipe_a = st.selectbox("Équipe Domicile", TEAMS, key="home_sim")
 with col2:
-    equipe_b = st.selectbox("Équipe Extérieur", TEAMS, index=1)
+    equipe_b = st.selectbox("Équipe Extérieur", TEAMS, key="away_sim")
 
 if st.button("Simuler le match"):
     if equipe_a == equipe_b:
         st.warning("Veuillez choisir deux équipes différentes.")
     else:
-        # Calcul des lambdas (moyennes de buts attendues)
-        lambda_dom = HOME_GOALS_MEAN_GLOBAL * Capacity[equipe_a]['Home_goals_capacity'] * Capacity[equipe_b]['Away_taken_capacity']
-        lambda_ext = AWAY_GOALS_MEAN_GLOBAL * Capacity[equipe_b]['Away_goals_capacity'] * Capacity[equipe_a]['Home_taken_capacity']
+        # 1. Calcul des lambdas
+        l_dom = HOME_GOALS_MEAN_GLOBAL * Capacity[equipe_a]['Home_goals_capacity'] * Capacity[equipe_b]['Away_taken_capacity']
+        l_ext = AWAY_GOALS_MEAN_GLOBAL * Capacity[equipe_b]['Away_goals_capacity'] * Capacity[equipe_a]['Home_taken_capacity']
 
-        # Simulation du score
-        buts_a, buts_b = simuler_match_poisson(equipe_a, equipe_b)
+        # 2. Simulation du score
+        b_a = np.random.poisson(l_dom)
+        b_b = np.random.poisson(l_ext)
 
-        # Affichage du score type "Tableau d'affichage"
-        st.markdown(f"""
-        <div style="text-align: center; border: 2px solid #555; padding: 20px; border-radius: 10px; background-color: #f9f9f9;">
+        # 3. Affichage Propre (Sans f-string complexe pour éviter les erreurs d'accolades)
+        logo_a = LOGOS.get(equipe_a, "")
+        logo_b = LOGOS.get(equipe_b, "")
+
+        html_score = f"""
+        <div style="text-align: center; border: 2px solid #e6e9ef; padding: 20px; border-radius: 15px; background-color: #ffffff; color: #31333F;">
             <div style="display: flex; justify-content: space-around; align-items: center;">
-                <div>
-                    <img src="{LOGOS.get(equipe_a, '')}" width="80"><br>
-                    <strong style="color: black; font-size: 20px;">{equipe_a}</strong>
+                <div style="flex: 1;">
+                    <img src="{logo_a}" width="80" style="margin-bottom: 10px;"><br>
+                    <span style="font-weight: bold; font-size: 1.2em;">{equipe_a}</span>
                 </div>
-                <div style="font-size: 48px; font-weight: bold; color: #333;">
-                    {buts_a} - {buts_b}
+                <div style="flex: 1; font-size: 3em; font-weight: 800; letter-spacing: 5px;">
+                    {b_a} - {b_b}
                 </div>
-                <div>
-                    <img src="{LOGOS.get(equipe_b, '')}" width="80"><br>
-                    <strong style="color: black; font-size: 20px;">{equipe_b}</strong>
+                <div style="flex: 1;">
+                    <img src="{logo_b}" width="80" style="margin-bottom: 10px;"><br>
+                    <span style="font-weight: bold; font-size: 1.2em;">{equipe_b}</span>
                 </div>
             </div>
         </div>
-        """, unsafe_index=True, unsafe_allow_html=True)
-
-        # Petit bonus : Probabilités attendues
-        st.write(f"💡 *Selon le modèle, l'espérance de buts est de **{lambda_dom:.2f}** pour {equipe_a} et **{lambda_ext:.2f}** pour {equipe_b}.*")
+        """
+        st.markdown(html_score, unsafe_allow_html=True)
+        
+        # Petit feedback technique
+        st.caption(f"Probabilités de buts calculées : {equipe_a} ({l_dom:.2f}) | {equipe_b} ({l_ext:.2f})")
 
 #tracer_evolution_classement(creer_historique_par_club(simuler_saison_et_tracker_rangs(calendrier_25_26),TEAMS))
 

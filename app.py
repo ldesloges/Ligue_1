@@ -413,6 +413,38 @@ if st.button("Lancer l'Analyse Statistique"):
             'Rang Moyen': '{:.2f}'
         }).background_gradient(cmap='Blues', subset=['Champion (%)', 'Top 3 (%)'])
           .background_gradient(cmap='Reds', subset=['Relégation (%)']))
+
+
+st.divider()
+st.header("🎲 Analyse Prédictive (Monte-Carlo)")
+
+n_simu = st.slider("Nombre de simulations", min_value=10, max_value=1000, value=100, key="mc_slider")
+
+if st.button("Lancer l'Analyse Statistique"):
+    with st.spinner(f'Calcul de {n_simu} simulations en cours...'):
+        # 1. Génération des données
+        resultats = simuler_monte_carlo(n_simu)
+        df_stats = calculer_stats_probabilites(resultats, n_simu)
+        
+        # 2. Affichage de la Heatmap (Visualisation de l'incertitude)
+        st.subheader("🔥 Distribution des probabilités de classement")
+        fig_heatmap = tracer_heatmap_probabilites(resultats)
+        st.plotly_chart(fig_heatmap, use_container_width=True)
+        
+        # 3. Affichage du Tableau détaillé (Données brutes)
+        st.subheader(f"📊 Statistiques détaillées")
+        st.dataframe(df_stats.style.format({
+            'Champion (%)': '{:.1f}%',
+            'Top 3 (%)': '{:.1f}%',
+            'Relégation (%)': '{:.1f}%',
+            'Rang Moyen': '{:.2f}'
+        }).background_gradient(cmap='Blues', subset=['Champion (%)', 'Top 3 (%)'])
+          .background_gradient(cmap='Reds', subset=['Relégation (%)']),
+          use_container_width=True)
+
+        # Petit récapitulatif textuel
+        top_team = df_stats.index[0]
+        st.info(f"💡 D'après les simulations, **{top_team}** a la plus forte probabilité de finir champion ({df_stats.loc[top_team, 'Champion (%)']:.1f}%).")
         
 st.divider()
 st.header("⚽ Simulateur de Match Unique")

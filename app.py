@@ -19,7 +19,7 @@ def encoder_svg_local(chemin_fichier):
         return f"data:image/svg+xml;base64,{base64_string}"
 
 # Utilise directement l'URL de l'image que tu as hébergée
-logo_url = "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/image_6a7a85.png" 
+logo_url = "https://www.google.com/url?sa=t&source=web&rct=j&url=https%3A%2F%2Fwww.lfp.fr%2Farticle%2Fun-nouveau-logo-pour-la-ligue-1-a-compter-de-2024-2025&ved=0CBUQjRxqFwoTCNi16Mq695EDFQAAAAAdAAAAABAH&opi=89978449" 
 
 st.markdown(
     f"""

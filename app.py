@@ -20,7 +20,7 @@ def encoder_svg_local(chemin_fichier):
 
 # 1. On définit d'abord la variable (en dehors de st.markdown)
 # Assure-toi que le chemin vers ton image est correct
-logo_ligue1 = encoder_svg_local("include/data/image.png")
+logo_ligue1 = encoder_svg_local("data/image.png")
 
 # 2. On appelle st.markdown ensuite
 st.markdown(

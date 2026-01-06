@@ -418,7 +418,6 @@ if st.button("Simuler le match"):
         st.markdown(html_score, unsafe_allow_html=True)
         
         # Petit feedback technique
-        st.caption(f"Probabilités de buts calculées : {equipe_a} ({l_dom:.2f}) | {equipe_b} ({l_ext:.2f})")
 
 #tracer_evolution_classement(creer_historique_par_club(simuler_saison_et_tracker_rangs(calendrier_25_26),TEAMS))
 

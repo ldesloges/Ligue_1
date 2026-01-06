@@ -250,7 +250,6 @@ def tracer_evolution_classement(TEAMS):
 
 def simuler_monte_carlo(n_simulations=100):
     # Dictionnaire pour stocker les positions finales de chaque équipe
-    # Format : {'Equipe': [Position_Simu1, Position_Simu2, ...]}
     resultats_positions = {team: [] for team in TEAMS}
     
     progress_bar = st.progress(0)
@@ -315,6 +314,50 @@ if st.button("Lancer l'Analyse Statistique"):
             'Rang Moyen': '{:.2f}'
         }).background_gradient(cmap='Blues', subset=['Champion (%)', 'Top 3 (%)'])
           .background_gradient(cmap='Reds', subset=['Relégation (%)']))
+        
+st.divider()
+st.header("⚽ Simulateur de Match Unique")
+st.subheader("Testez le modèle sur une affiche personnalisée")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    equipe_a = st.selectbox("Équipe Domicile", TEAMS, index=0)
+with col2:
+    equipe_b = st.selectbox("Équipe Extérieur", TEAMS, index=1)
+
+if st.button("Simuler le match"):
+    if equipe_a == equipe_b:
+        st.warning("Veuillez choisir deux équipes différentes.")
+    else:
+        # Calcul des lambdas (moyennes de buts attendues)
+        lambda_dom = HOME_GOALS_MEAN_GLOBAL * Capacity[equipe_a]['Home_goals_capacity'] * Capacity[equipe_b]['Away_taken_capacity']
+        lambda_ext = AWAY_GOALS_MEAN_GLOBAL * Capacity[equipe_b]['Away_goals_capacity'] * Capacity[equipe_a]['Home_taken_capacity']
+
+        # Simulation du score
+        buts_a, buts_b = simuler_match_poisson(equipe_a, equipe_b)
+
+        # Affichage du score type "Tableau d'affichage"
+        st.markdown(f"""
+        <div style="text-align: center; border: 2px solid #555; padding: 20px; border-radius: 10px; background-color: #f9f9f9;">
+            <div style="display: flex; justify-content: space-around; align-items: center;">
+                <div>
+                    <img src="{LOGOS.get(equipe_a, '')}" width="80"><br>
+                    <strong style="color: black; font-size: 20px;">{equipe_a}</strong>
+                </div>
+                <div style="font-size: 48px; font-weight: bold; color: #333;">
+                    {buts_a} - {buts_b}
+                </div>
+                <div>
+                    <img src="{LOGOS.get(equipe_b, '')}" width="80"><br>
+                    <strong style="color: black; font-size: 20px;">{equipe_b}</strong>
+                </div>
+            </div>
+        </div>
+        """, unsafe_index=True, unsafe_allow_html=True)
+
+        # Petit bonus : Probabilités attendues
+        st.write(f"💡 *Selon le modèle, l'espérance de buts est de **{lambda_dom:.2f}** pour {equipe_a} et **{lambda_ext:.2f}** pour {equipe_b}.*")
 
 #tracer_evolution_classement(creer_historique_par_club(simuler_saison_et_tracker_rangs(calendrier_25_26),TEAMS))
 

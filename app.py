@@ -389,13 +389,10 @@ if st.button("Simuler le match"):
     if equipe_a == equipe_b:
         st.warning("Veuillez choisir deux équipes différentes.")
     else:
-        # 1. Calcul des lambdas
-        l_dom = HOME_GOALS_MEAN_GLOBAL * Capacity[equipe_a]['Home_goals_capacity'] * Capacity[equipe_b]['Away_taken_capacity']
-        l_ext = AWAY_GOALS_MEAN_GLOBAL * Capacity[equipe_b]['Away_goals_capacity'] * Capacity[equipe_a]['Home_taken_capacity']
-
+        
         # 2. Simulation du score
-        b_a = np.random.poisson(l_dom)
-        b_b = np.random.poisson(l_ext)
+        b_a = simuler_match_poisson(equipe_a,equipe_b)[0]
+        b_b = simuler_match_poisson(equipe_a,equipe_b)[1]
 
         # 3. Affichage Propre (Sans f-string complexe pour éviter les erreurs d'accolades)
         logo_a = LOGOS.get(equipe_a, "")

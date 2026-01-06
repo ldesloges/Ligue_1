@@ -18,22 +18,21 @@ def encoder_svg_local(chemin_fichier):
         base64_string = base64.b64encode(image_data).decode("utf-8")
         return f"data:image/svg+xml;base64,{base64_string}"
 
-# 1. On définit d'abord la variable (en dehors de st.markdown)
-# Assure-toi que le chemin vers ton image est correct
-logo_ligue1 = encoder_svg_local("data/image.png")
+# Utilise directement l'URL de l'image que tu as hébergée
+logo_url = "https://raw.githubusercontent.com/ton-pseudo/ton-repo/main/image_6a7a85.png" 
 
-# 2. On appelle st.markdown ensuite
 st.markdown(
     f"""
     <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 30px;">
-        <img src="{logo_ligue1}" width="100">
-        <h1 style="margin: 0; font-weight: 800; color: #1d3557; font-size: 3.5em; font-family: sans-serif;">
+        <img src="{logo_url}" width="100">
+        <h1 style="margin: 0; font-weight: 800; color: #1d3557; font-size: 3.5em;">
             PROJET LIGUE 1 DATA
         </h1>
     </div>
     """,
     unsafe_allow_html=True
 )
+
 
 LOGOS = {
     "Paris SG": encoder_svg_local("include/PSG.svg"),

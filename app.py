@@ -574,6 +574,6 @@ fig.add_hrect(y0=15.5, y1=17.5, fillcolor="pink", opacity=0.08,
 fig.add_hrect(y0=3.5, y1=5.5, fillcolor="violet", opacity=0.08, 
               annotation_text="LIGUE EUROPA", annotation_position="inside right")
 st.divider()
-st.header("⚽ Simulation de la ligue 1 McDonalds 2025-2026")
+st.header("⚽ Simulation en temps réel")
 st.plotly_chart(fig, use_container_width=False)
 

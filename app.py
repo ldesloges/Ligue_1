@@ -19,7 +19,7 @@ def encoder_svg_local(chemin_fichier):
         return f"data:image/svg+xml;base64,{base64_string}"
 
 # Utilise directement l'URL de l'image que tu as hébergée
-logo_url = "https://upload.wikimedia.org/wikipedia/fr/thumb/d/d9/Logo_Ligue_1_2024.svg/1621px-Logo_Ligue_1_2024.svg.png" 
+logo_url = "https://media.sudouest.fr/19116669/1200x600/l111.jpg" 
 
 st.markdown(
     f"""

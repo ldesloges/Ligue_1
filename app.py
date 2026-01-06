@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 import streamlit as st
 
 
-
+import base64
 #Calendrier
 calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv')
 calendrier_25_26=calendrier_25_26[['wk','HomeTeam','AwayTeam']]
@@ -395,14 +395,6 @@ if st.button("Simuler le match"):
 #tracer_evolution_classement(creer_historique_par_club(simuler_saison_et_tracker_rangs(calendrier_25_26),TEAMS))
 
 import plotly.express as px
-
-import base64
-
-def encoder_svg_local(chemin_fichier):
-    with open(chemin_fichier, "rb") as f:
-        image_data = f.read()
-        base64_string = base64.b64encode(image_data).decode("utf-8")
-        return f"data:image/svg+xml;base64,{base64_string}"
 
 
 

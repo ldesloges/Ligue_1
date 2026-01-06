@@ -391,8 +391,9 @@ if st.button("Simuler le match"):
     else:
         
         # 2. Simulation du score
-        b_a = simuler_match_poisson(equipe_a,equipe_b)[0]
-        b_b = simuler_match_poisson(equipe_a,equipe_b)[1]
+        resultat=simuler_match_poisson(equipe_a,equipe_b)
+        b_a = resultats[0]
+        b_b = resultat[1]
 
         # 3. Affichage Propre (Sans f-string complexe pour éviter les erreurs d'accolades)
         logo_a = LOGOS.get(equipe_a, "")

@@ -10,6 +10,28 @@ import streamlit as st
 calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv')
 calendrier_25_26=calendrier_25_26[['wk','HomeTeam','AwayTeam']]
 
+LOGOS = {
+    "Paris SG": encoder_svg_local("include/PSG.svg"),
+    "Rennes": encoder_svg_local("include/Rennes.svg"),
+    "Lens": encoder_svg_local("include/Lens.svg"),
+    "Monaco": encoder_svg_local("include/Monaco.svg"),
+    "Nice": encoder_svg_local("include/Nice.svg"),
+    "Brest": encoder_svg_local("include/Brest.svg"),
+    "Angers": encoder_svg_local("include/Angers.svg"),
+    "Auxerre": encoder_svg_local("include/Auxerre.svg"),
+    "Metz": encoder_svg_local("include/Metz.svg"),
+    "Nantes": encoder_svg_local("include/Nantes.svg"),
+    "Marseille": encoder_svg_local("include/OM.svg"),
+    "Lyon": encoder_svg_local("include/OL.svg"),
+    "Lorient": encoder_svg_local("include/Lorient.svg"),
+    "Le Havre": encoder_svg_local("include/LeHavre.svg"),
+    "Strasbourg": encoder_svg_local("include/Strasbourg.svg"),
+    "Lille": encoder_svg_local("include/Lille.svg"),
+    "Paris FC": "https://upload.wikimedia.org/wikipedia/fr/d/db/Logo_Paris_FC_2011.svg",
+    "Toulouse":encoder_svg_local("include/Toulouse.svg")
+    # ... et ainsi de suite
+}
+
 
 #Création de la DataFrame
 tous_les_matchs = []
@@ -376,27 +398,7 @@ def encoder_svg_local(chemin_fichier):
 
 
 
-LOGOS = {
-    "Paris SG": encoder_svg_local("include/PSG.svg"),
-    "Rennes": encoder_svg_local("include/Rennes.svg"),
-    "Lens": encoder_svg_local("include/Lens.svg"),
-    "Monaco": encoder_svg_local("include/Monaco.svg"),
-    "Nice": encoder_svg_local("include/Nice.svg"),
-    "Brest": encoder_svg_local("include/Brest.svg"),
-    "Angers": encoder_svg_local("include/Angers.svg"),
-    "Auxerre": encoder_svg_local("include/Auxerre.svg"),
-    "Metz": encoder_svg_local("include/Metz.svg"),
-    "Nantes": encoder_svg_local("include/Nantes.svg"),
-    "Marseille": encoder_svg_local("include/OM.svg"),
-    "Lyon": encoder_svg_local("include/OL.svg"),
-    "Lorient": encoder_svg_local("include/Lorient.svg"),
-    "Le Havre": encoder_svg_local("include/LeHavre.svg"),
-    "Strasbourg": encoder_svg_local("include/Strasbourg.svg"),
-    "Lille": encoder_svg_local("include/Lille.svg"),
-    "Paris FC": "https://upload.wikimedia.org/wikipedia/fr/d/db/Logo_Paris_FC_2011.svg",
-    "Toulouse":encoder_svg_local("include/Toulouse.svg")
-    # ... et ainsi de suite
-}
+
 
 # 1. On récupère les données (une seule simulation comme avant)
 import plotly.graph_objects as go

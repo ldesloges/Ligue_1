@@ -406,6 +406,7 @@ if st.button("Lancer l'Analyse Statistique", key="bouton_stats_1"):
         st.subheader(f"Résultats basés sur {n_simu} saisons simulées")
         
         # Affichage avec mise en forme
+        st.subheader(f"📊 Statistiques détaillées")
         st.dataframe(df_stats.style.format({
             'Champion (%)': '{:.1f}%',
             'Top 3 (%)': '{:.1f}%',
@@ -419,16 +420,6 @@ if st.button("Lancer l'Analyse Statistique", key="bouton_stats_1"):
         fig_heatmap = tracer_heatmap_probabilites(resultats)
         st.plotly_chart(fig_heatmap, use_container_width=True)
         
-        # 3. Affichage du Tableau détaillé (Données brutes)
-        st.subheader(f"📊 Statistiques détaillées")
-        st.dataframe(df_stats.style.format({
-            'Champion (%)': '{:.1f}%',
-            'Top 3 (%)': '{:.1f}%',
-            'Relégation (%)': '{:.1f}%',
-            'Rang Moyen': '{:.2f}'
-        }).background_gradient(cmap='Blues', subset=['Champion (%)', 'Top 3 (%)'])
-          .background_gradient(cmap='Reds', subset=['Relégation (%)']),
-          use_container_width=True)
 
         # Petit récapitulatif textuel
         top_team = df_stats.index[0]

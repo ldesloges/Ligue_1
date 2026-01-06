@@ -10,6 +10,14 @@ import streamlit as st
 calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv')
 calendrier_25_26=calendrier_25_26[['wk','HomeTeam','AwayTeam']]
 
+def encoder_svg_local(chemin_fichier):
+    with open(chemin_fichier, "rb") as f:
+        image_data = f.read()
+        base64_string = base64.b64encode(image_data).decode("utf-8")
+        return f"data:image/svg+xml;base64,{base64_string}"
+
+
+
 LOGOS = {
     "Paris SG": encoder_svg_local("include/PSG.svg"),
     "Rennes": encoder_svg_local("include/Rennes.svg"),

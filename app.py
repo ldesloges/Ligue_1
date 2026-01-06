@@ -392,7 +392,7 @@ if st.button("Simuler le match"):
         
         # 2. Simulation du score
         resultat=simuler_match_poisson(equipe_a,equipe_b)
-        b_a = resultats[0]
+        b_a = resultat[0]
         b_b = resultat[1]
 
         # 3. Affichage Propre (Sans f-string complexe pour éviter les erreurs d'accolades)

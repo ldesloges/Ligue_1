@@ -19,7 +19,7 @@ def encoder_svg_local(chemin_fichier):
         return f"data:image/svg+xml;base64,{base64_string}"
 
 # Utilise directement l'URL de l'image que tu as hébergée
-logo_url = "https://media.sudouest.fr/19116669/1200x600/l111.jpg" 
+logo_url = "https://www.lfp.fr/_next/image?url=https%3A%2F%2Fwww.lfp.fr%2Fassets%2FLFP_REVEAL_WEB_LFP_MOBILE_1280x1600_993ede15db.jpg&w=3840&q=75" 
 
 st.markdown(
     f"""

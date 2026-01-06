@@ -392,7 +392,8 @@ def tracer_heatmap_probabilites(resultats_positions):
     )
     
     return fig
-st.title("SIMULATION LIGUE1 McDonalds 2025-2026")
+
+st.title("🏆 Simulation Ligue 1 2025-2026")
 st.divider()
 st.header("🎲 Analyse Prédictive de a Ligue1 McDonalds (Monte-Carlo)")
 

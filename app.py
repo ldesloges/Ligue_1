@@ -248,6 +248,74 @@ def tracer_evolution_classement(TEAMS):
     plt.tight_layout()
     plt.show()
 
+def simuler_monte_carlo(n_simulations=100):
+    # Dictionnaire pour stocker les positions finales de chaque équipe
+    # Format : {'Equipe': [Position_Simu1, Position_Simu2, ...]}
+    resultats_positions = {team: [] for team in TEAMS}
+    
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+
+    for i in range(n_simulations):
+        # On réinitialise un classement vierge à chaque simulation
+        df_simu = pd.DataFrame({
+            'Equipe': TEAMS, 'Pts': 0, 'Joués': 0, 'G': 0, 'N': 0, 'P': 0, 'BP': 0, 'BC': 0, 'Diff': 0
+        }).set_index('Equipe')
+
+        # On simule tous les matchs du calendrier
+        for _, match in calendrier_25_26.iterrows():
+            df_simu = mettre_a_jour_classement(df_simu, match['HomeTeam'], match['AwayTeam'])
+        
+        # On trie pour avoir le classement final de cette simulation
+        classement_final = afficher_classement_final(df_simu)
+        
+        # On enregistre le rang de chaque équipe
+        for team in TEAMS:
+            rang = classement_final.index.get_loc(team) + 1
+            resultats_positions[team].append(rang)
+        
+        # Mise à jour barre de progression
+        progress_bar.progress((i + 1) / n_simulations)
+        status_text.text(f"Simulation Monte-Carlo : {i+1}/{n_simulations}")
+
+    return resultats_positions
+
+
+def calculer_stats_probabilites(resultats_positions, n_simulations):
+    stats = []
+    for team, rangs in resultats_positions.items():
+        rangs = np.array(rangs)
+        stats.append({
+            'Equipe': team,
+            'Champion (%)': (np.sum(rangs == 1) / n_simulations) * 100,
+            'Top 3 (%)': (np.sum(rangs <= 3) / n_simulations) * 100,
+            'Relégation (%)': (np.sum(rangs >= 17) / n_simulations) * 100,
+            'Rang Moyen': np.mean(rangs)
+        })
+    
+    return pd.DataFrame(stats).sort_values(by='Champion (%)', ascending=False).set_index('Equipe')
+
+st.divider()
+st.header("🎲 Analyse Prédictive (Monte-Carlo)")
+
+n_simu = st.slider("Nombre de simulations", min_value=10, max_value=1000, value=100)
+
+if st.button("Lancer l'Analyse Statistique"):
+    with st.spinner('Calcul des probabilités en cours...'):
+        resultats = simuler_monte_carlo(n_simu)
+        df_stats = calculer_stats_probabilites(resultats, n_simu)
+        
+        st.subheader(f"Résultats basés sur {n_simu} saisons simulées")
+        
+        # Affichage avec mise en forme
+        st.dataframe(df_stats.style.format({
+            'Champion (%)': '{:.1f}%',
+            'Top 3 (%)': '{:.1f}%',
+            'Relégation (%)': '{:.1f}%',
+            'Rang Moyen': '{:.2f}'
+        }).background_gradient(cmap='Blues', subset=['Champion (%)', 'Top 3 (%)'])
+          .background_gradient(cmap='Reds', subset=['Relégation (%)']))
+
 #tracer_evolution_classement(creer_historique_par_club(simuler_saison_et_tracker_rangs(calendrier_25_26),TEAMS))
 
 import plotly.express as px

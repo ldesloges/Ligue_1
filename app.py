@@ -4,7 +4,6 @@ from scipy.stats import poisson
 from matplotlib import pyplot as plt
 import streamlit as st
 
-
 import base64
 
 
@@ -25,9 +24,6 @@ st.markdown(
     f"""
     <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 30px;">
         <img src="{logo_url}" width="100">
-        <h1 style="margin: 0; font-weight: 800; color: #1d3557; font-size: 3.5em;">
-            PROJET LIGUE 1 DATA
-        </h1>
     </div>
     """,
     unsafe_allow_html=True

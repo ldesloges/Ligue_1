@@ -18,7 +18,7 @@ def encoder_svg_local(chemin_fichier):
         return f"data:image/svg+xml;base64,{base64_string}"
 
 # Utilise directement l'URL de l'image que tu as hébergée
-logo_url = "https://www.lfp.fr/_next/image?url=https%3A%2F%2Fwww.lfp.fr%2Fassets%2FLFP_REVEAL_WEB_LFP_MOBILE_1280x1600_993ede15db.jpg&w=3840&q=75" 
+logo_url = "https://preview.redd.it/nouveau-logo-de-la-ligue-1-mcdonalds-pour-la-saison-2024-v0-pespi1nju2rc1.jpeg?width=1080&crop=smart&auto=webp&s=adc08fd2b07e1030b8ce301533d1678eb2d94d5c" 
 
 st.markdown(
     f"""

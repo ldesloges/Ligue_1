@@ -8,7 +8,7 @@ import base64
 
 
 #Calendrier
-calendrier_25_26=pd.read_csv(f'data/Calendrier_25_26.csv')
+calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv')
 
 
 

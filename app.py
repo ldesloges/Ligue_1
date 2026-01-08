@@ -8,12 +8,8 @@ import base64
 
 
 #Calendrier
-calendrier_25_26=pd.read_csv(f'data/Calendrier_Premiere_league_2025_2026.csv')
-calendrier_25_26=calendrier_25_26.drop('stadium', axis=1)
-calendrier_25_26=calendrier_25_26.drop('status', axis=1)
-calendrier_25_26=calendrier_25_26.drop('result', axis=1)
-calendrier_25_26=calendrier_25_26.drop('date', axis=1)
-calendrier_25_26=calendrier_25_26.drop('time', axis=1)
+calendrier_25_26=pd.read_csv(f'data/Calendrier_25_26.csv')
+
 
 
 calendrier_25_26=calendrier_25_26[['wk','HomeTeam','AwayTeam']]
@@ -63,7 +59,7 @@ LOGOS = {
 #Création de la DataFrame
 tous_les_matchs = []
 for i in range(9):
-    df = pd.read_csv(f'data/PL_{16+i}_{17+i}.csv')
+    df = pd.read_csv(f'data/L1_{16+i}_{17+i}.csv')
     df = df[['HomeTeam', 'AwayTeam', 'FTHG', 'FTAG']].rename(columns={'FTHG': 'HomeGoals', 'FTAG': 'AwayGoals'})
     tous_les_matchs.append(df)
 
@@ -73,7 +69,7 @@ data_historique = pd.concat(tous_les_matchs, ignore_index=True)
 HOME_GOALS_MEAN_GLOBAL = data_historique['HomeGoals'].mean()
 AWAY_GOALS_MEAN_GLOBAL = data_historique['AwayGoals'].mean()
 
-Ligue1_25_26=pd.read_csv(f'data/PL_25_26.csv')
+Ligue1_25_26=pd.read_csv(f'data/L1_25_26.csv')
 toutes_equipes = pd.concat([Ligue1_25_26['HomeTeam'], Ligue1_25_26['AwayTeam']]).unique()
 TEAMS = list(toutes_equipes)
 

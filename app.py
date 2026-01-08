@@ -12,6 +12,9 @@ calendrier_25_26=pd.read_csv(f'data/Calendrier_Premiere_league_2025_2026.csv')
 calendrier_25_26=calendrier_25_26.drop('stadium', axis=1)
 calendrier_25_26=calendrier_25_26.drop('status', axis=1)
 calendrier_25_26=calendrier_25_26.drop('result', axis=1)
+calendrier_25_26=calendrier_25_26.drop('date', axis=1)
+calendrier_25_26=calendrier_25_26.drop('time', axis=1)
+
 
 calendrier_25_26=calendrier_25_26[['wk','HomeTeam','AwayTeam']]
 

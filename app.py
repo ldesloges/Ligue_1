@@ -9,6 +9,10 @@ import base64
 
 #Calendrier
 calendrier_25_26=pd.read_csv(f'data/Calendrier_Premiere_league_2025_2026.csv')
+calendrier_25_26=calendrier_25_26.drop('stadium', axis=1)
+calendrier_25_26=calendrier_25_26.drop('status', axis=1)
+calendrier_25_26=calendrier_25_26.drop('result', axis=1)
+
 calendrier_25_26=calendrier_25_26[['wk','HomeTeam','AwayTeam']]
 
 def encoder_svg_local(chemin_fichier):

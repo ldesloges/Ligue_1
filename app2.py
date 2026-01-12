@@ -7,12 +7,15 @@ import streamlit as st
 import base64
 
 
-#Calendrier
-calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv')
+calendrier_25_26=pd.read_csv(f'data/calendrierPL.csv')
 
+calendrier_25_26=calendrier_25_26[['matchday','home_team','away_team']]
 
+calendrier_25_26 = calendrier_25_26.rename(columns={'matchday': 'wk'})
+calendrier_25_26 = calendrier_25_26.rename(columns={'home_team': 'HomeTeam'})
+calendrier_25_26 = calendrier_25_26.rename(columns={'away_team': 'AwayTeam'})
 
-calendrier_25_26=calendrier_25_26[['wk','HomeTeam','AwayTeam']]
+print(calendrier_25_26)
 
 def encoder_svg_local(chemin_fichier):
     with open(chemin_fichier, "rb") as f:
@@ -59,7 +62,7 @@ LOGOS = {
 #Création de la DataFrame
 tous_les_matchs = []
 for i in range(9):
-    df = pd.read_csv(f'data/L1_{16+i}_{17+i}.csv')
+    df = pd.read_csv(f'data/PL_{16+i}_{17+i}.csv')
     df = df[['HomeTeam', 'AwayTeam', 'FTHG', 'FTAG']].rename(columns={'FTHG': 'HomeGoals', 'FTAG': 'AwayGoals'})
     tous_les_matchs.append(df)
 
@@ -69,7 +72,7 @@ data_historique = pd.concat(tous_les_matchs, ignore_index=True)
 HOME_GOALS_MEAN_GLOBAL = data_historique['HomeGoals'].mean()
 AWAY_GOALS_MEAN_GLOBAL = data_historique['AwayGoals'].mean()
 
-Ligue1_25_26=pd.read_csv(f'data/L1_25_26.csv')
+Ligue1_25_26=pd.read_csv(f'data/PL_25_26.csv')
 toutes_equipes = pd.concat([Ligue1_25_26['HomeTeam'], Ligue1_25_26['AwayTeam']]).unique()
 TEAMS = list(toutes_equipes)
 
@@ -441,154 +444,4 @@ if st.button("Lancer l'Analyse Statistique", key="bouton_stats_1"):
         top_team = df_stats.index[0]
         st.info(f"💡 D'après les simulations, **{top_team}** a la plus forte probabilité de finir champion ({df_stats.loc[top_team, 'Champion (%)']:.1f}%).")
 
-
-
-st.divider()
-st.header("⚽ Simulateur de Match Unique")
-
-col1, col2 = st.columns(2)
-with col1:
-    equipe_a = st.selectbox("Équipe Domicile", TEAMS, key="home_sim")
-with col2:
-    equipe_b = st.selectbox("Équipe Extérieur", TEAMS, key="away_sim")
-
-if st.button("Simuler le match"):
-    if equipe_a == equipe_b:
-        st.warning("Veuillez choisir deux équipes différentes.")
-    else:
-        
-        # 2. Simulation du score
-        resultat=simuler_match_poisson(equipe_a,equipe_b)
-        b_a = resultat[0]
-        b_b = resultat[1]
-
-        # 3. Affichage Propre (Sans f-string complexe pour éviter les erreurs d'accolades)
-        logo_a = LOGOS.get(equipe_a, "")
-        logo_b = LOGOS.get(equipe_b, "")
-
-        html_score = f"""
-        <div style="text-align: center; border: 2px solid #e6e9ef; padding: 20px; border-radius: 15px; background-color: #ffffff; color: #31333F;">
-            <div style="display: flex; justify-content: space-around; align-items: center;">
-                <div style="flex: 1;">
-                    <img src="{logo_a}" width="80" style="margin-bottom: 10px;"><br>
-                    <span style="font-weight: bold; font-size: 1.2em;">{equipe_a}</span>
-                </div>
-                <div style="flex: 1; font-size: 3em; font-weight: 800; letter-spacing: 5px;">
-                    {b_a} - {b_b}
-                </div>
-                <div style="flex: 1;">
-                    <img src="{logo_b}" width="80" style="margin-bottom: 10px;"><br>
-                    <span style="font-weight: bold; font-size: 1.2em;">{equipe_b}</span>
-                </div>
-            </div>
-        </div>
-        """
-        st.markdown(html_score, unsafe_allow_html=True)
-        
-        # Petit feedback technique
-
-#tracer_evolution_classement(creer_historique_par_club(simuler_saison_et_tracker_rangs(calendrier_25_26),TEAMS))
-
-import plotly.express as px
-
-
-
-
-
-# 1. On récupère les données (une seule simulation comme avant)
-import plotly.graph_objects as go
-
-# 1. On prépare les données (comme avant)
-liste_classements = simuler_saison_et_tracker_rangs(calendrier_25_26)
-
-# 2. Création de la figure de base
-fig = go.Figure()
-
-# 3. Ajout des lignes pour chaque équipe (statiques au début)
-for team in TEAMS:
-    # On initialise avec la journée 1
-    fig.add_trace(go.Scatter(
-        x=[1], 
-        y=[liste_classements[0].index.get_loc(team) + 1],
-        mode='lines+markers+text',
-        name=team,
-        line=dict(width=2)
-    ))
-
-# 4. CRÉATION DES FRAMES (C'est ici que les logos bougent)
-frames = []
-for i in range(len(liste_classements)):
-    frame_data = []
-    current_layout_images = []
-    
-    for team in TEAMS:
-        # Position de l'équipe à la journée i+1
-        y_pos = liste_classements[i].index.get_loc(team) + 1
-        x_pos = i + 1
-        
-        # Données de la ligne (historique jusqu'à la journée i)
-        historique_x = list(range(1, i + 2))
-        historique_y = [liste_classements[j].index.get_loc(team) + 1 for j in range(i + 1)]
-        
-        frame_data.append(go.Scatter(x=historique_x, y=historique_y))
-        
-        # AJOUT DU LOGO QUI BOUGE
-        if team in LOGOS:
-            current_layout_images.append(dict(
-                source=LOGOS[team],
-                xref="x", yref="y",
-                x=x_pos, y=y_pos,
-                sizex=2, sizey=2,
-                xanchor="center", yanchor="middle",
-                layer="above"
-            ))
-            
-    frames.append(go.Frame(data=frame_data, layout=dict(images=current_layout_images), name=str(i+1)))
-
-fig.frames = frames
-
-
-
-# 5. CONFIGURATION DU LAYOUT ET DES BOUTONS
-# 5. CONFIGURATION DU LAYOUT AVEC GLISSEMENT FLUIDE
-fig.update_layout(
-    title="Simulation Ligue 1 McDonald 2025-2026",
-    title_x=0.1,
-    yaxis=dict(autorange="reversed", range=[18, 1], dtick=1, title="Rang"),
-    xaxis=dict(range=[1, 35], dtick=1, title="Journée",domain=[0, 1]),
-    height=800,
-    width=800,
-    template="plotly_white",
-    showlegend=False,
-    margin=dict(l=10, r=0, t=100, b=0),
-    
-
-    updatemenus=[dict(
-        type="buttons",
-        showactive=False,
-        x=0, y=1.2,
-        buttons=[dict(
-            label="▶ Lancer la simulation",
-            method="animate",
-            args=[None, {
-                "frame": {"duration": 2000, "redraw": True},
-                "fromcurrent": True,
-                "transition": {"duration": 1800, "easing": "cubic-in-out"}
-            }]
-        )]
-    )]
-)
-
-# --- ZONES COLORÉES ---
-fig.add_hrect(y0=0.5, y1=3.5, fillcolor="blue", opacity=0.08, 
-              annotation_text="LIGUE DES CHAMPIONS", annotation_position="inside right")
-fig.add_hrect(y0=17.5, y1=18.5, fillcolor="red", opacity=0.08, 
-              annotation_text="ZONE DE RELÉGATION", annotation_position="inside right")
-fig.add_hrect(y0=15.5, y1=17.5, fillcolor="pink", opacity=0.08, 
-              annotation_text="ZONE DE BARAGE", annotation_position="inside right")
-fig.add_hrect(y0=3.5, y1=5.5, fillcolor="violet", opacity=0.08, 
-              annotation_text="LIGUE EUROPA", annotation_position="inside right")
-st.divider()
-st.header("⚽ Simulation en temps réel")
-st.plotly_chart(fig, use_container_width=False)
 

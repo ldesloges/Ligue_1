@@ -72,7 +72,7 @@ data_historique = pd.concat(tous_les_matchs, ignore_index=True)
 HOME_GOALS_MEAN_GLOBAL = data_historique['HomeGoals'].mean()
 AWAY_GOALS_MEAN_GLOBAL = data_historique['AwayGoals'].mean()
 
-Ligue1_25_26=pd.read_csv(f'data/L1_25_26.csv')
+Ligue1_25_26=pd.read_csv(f'data/PL_25_26.csv')
 toutes_equipes = pd.concat([Ligue1_25_26['HomeTeam'], Ligue1_25_26['AwayTeam']]).unique()
 TEAMS = list(toutes_equipes)
 
@@ -445,5 +445,7 @@ if st.button("Lancer l'Analyse Statistique", key="bouton_stats_1"):
         st.info(f"💡 D'après les simulations, **{top_team}** a la plus forte probabilité de finir champion ({df_stats.loc[top_team, 'Champion (%)']:.1f}%).")
 
 
+df_cal=calendrier_25_26=pd.read_csv(f'data/calendrierPL.csv')
+df_pl
 
-
+teams_cal=df_cal['HomeTeam'].unique()

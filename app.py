@@ -7,7 +7,7 @@ import streamlit as st
 import base64
 
 
-calendrier_25_26=pd.read_csv(f'data/Calendrier_Premiere_League_2025_2026.csv')
+calendrier_25_26=pd.read_csv(f'data/calendrierPL.csv')
 
 calendrier_25_26=calendrier_25_26[['matchday','home_team','away_team']]
 

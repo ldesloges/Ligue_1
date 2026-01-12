@@ -445,7 +445,3 @@ if st.button("Lancer l'Analyse Statistique", key="bouton_stats_1"):
         st.info(f"💡 D'après les simulations, **{top_team}** a la plus forte probabilité de finir champion ({df_stats.loc[top_team, 'Champion (%)']:.1f}%).")
 
 
-df_cal=calendrier_25_26=pd.read_csv(f'data/calendrierPL.csv')
-df_pl
-
-teams_cal=df_cal['HomeTeam'].unique()

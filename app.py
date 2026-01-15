@@ -273,7 +273,7 @@ def simuler_wk(j, classement, calendrier, data_hist):
     data_hist = pd.concat([data_hist, df_nouveaux], ignore_index=True)
     
     # Recalcul des poids et des capacités
-    data_hist['Days_Ago'] = (data_hist['Date_DT'].max() - data_hist['Date_DT']).dt.days
+    data_hist['Days_Ago'] = (data_hist['Date'].max() - data_hist['Date']).dt.days
     data_hist['Weight'] = np.exp(-0.002 * data_hist['Days_Ago'])
     recalculate_capacity(data_hist) 
     

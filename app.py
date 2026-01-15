@@ -8,7 +8,7 @@ import base64
 
 
 #Calendrier
-calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv')
+calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv', encoding='utf-8-sig')
 
 
 
@@ -59,12 +59,13 @@ LOGOS = {
 #Création de la DataFrame
 tous_les_matchs = []
 for i in range(9):
-    df = pd.read_csv(f'data/L1_{16+i}_{17+i}.csv')
+    df = pd.read_csv(f'data/L1_{16+i}_{17+i}.csv', encoding='utf-8-sig')
     df = df[['HomeTeam', 'AwayTeam', 'FTHG', 'FTAG']].rename(columns={'FTHG': 'HomeGoals', 'FTAG': 'AwayGoals'})
     tous_les_matchs.append(df)
 
 #Concaténation des datas
 data_historique = pd.concat(tous_les_matchs, ignore_index=True)
+
 data_historique['Date'] = pd.to_datetime(data_historique['Date'], dayfirst=True)
 ref_date = data_historique['Date'].max()
 data_historique['Days_Ago'] = (ref_date - data_historique['Date']).dt.days

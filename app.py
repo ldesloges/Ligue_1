@@ -247,7 +247,7 @@ def mettre_a_jour_classement_direct(classement, equipe_dom, equipe_ext, b_dom, b
     classement['Diff'] = classement['BP'] - classement['BC']
     return classement
 
-
+print(calendrier_25_26)
 #Simulation d'une journée
 def simuler_wk(j, classement, calendrier, data_hist):
     matchs_journee = calendrier[calendrier['wk'] == j]
@@ -265,7 +265,7 @@ def simuler_wk(j, classement, calendrier, data_hist):
         nouveaux_matchs.append({
             'HomeTeam': e_dom, 'AwayTeam': e_ext,
             'HomeGoals': b_dom, 'AwayGoals': b_ext,
-            'Date': match['Date']
+            'Date': match['Date_DT']
         })
 
     # Mise à jour de la base historique pour la journée suivante
@@ -273,7 +273,7 @@ def simuler_wk(j, classement, calendrier, data_hist):
     data_hist = pd.concat([data_hist, df_nouveaux], ignore_index=True)
     
     # Recalcul des poids et des capacités
-    data_hist['Days_Ago'] = (data_hist['Date'].max() - data_hist['Date']).dt.days
+    data_hist['Days_Ago'] = (data_hist['Date_DT'].max() - data_hist['Date_DT']).dt.days
     data_hist['Weight'] = np.exp(-0.002 * data_hist['Days_Ago'])
     recalculate_capacity(data_hist) 
     

@@ -65,6 +65,7 @@ for i in range(9):
 
 #Concaténation des datas
 data_historique = pd.concat(tous_les_matchs, ignore_index=True)
+data_historique['Date'] = pd.to_datetime(data_historique['Date'])
 ref_date = data_historique['Date'].max()
 data_historique['Days_Ago'] = (ref_date - data_historique['Date']).dt.days
 data_historique['Weight'] = np.exp(-0.002 * data_historique['Days_Ago'])

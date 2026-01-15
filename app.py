@@ -99,8 +99,8 @@ for team in TEAMS:
 
         Home_goals_mean_team=((home_matches['HomeGoals']*home_matches['Weight']).sum())/(home_matches['Weight'].sum())
         Away_goals_mean_team=((away_matches['AwayGoals']*away_matches['Weight']).sum())/(away_matches['Weight'].sum())
-        Home_taken_mean_team=((home_matches['AwayGoals']*home_matches['Weight']).sum())/(away_matches['Weight'].sum())
-        Away_taken_mean_team=((away_matches['HomeGoals']*home_matches['Weight']).sum())/(home_matches['Weight'].sum())
+        Home_taken_mean_team=((home_matches['AwayGoals']*home_matches['Weight']).sum())/(home_matches['Weight'].sum())
+        Away_taken_mean_team=((away_matches['HomeGoals']*away_matches['Weight']).sum())/(away_matches['Weight'].sum())
         
         Home_goals_capacity=Home_goals_mean_team/HOME_GOALS_MEAN_GLOBAL
         Away_goals_capacity=Away_goals_mean_team/AWAY_GOALS_MEAN_GLOBAL
@@ -115,6 +115,7 @@ for team in TEAMS:
         }
 
 print(Capacity)
+print(home_matches)
 
 #Création du classement initial
 classement = {

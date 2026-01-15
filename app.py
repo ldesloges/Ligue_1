@@ -12,7 +12,23 @@ calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv', encoding='utf-8-sig')
 
 
 
-calendrier_25_26=calendrier_25_26[['wk','HomeTeam','AwayTeam']]
+calendrier_25_26=calendrier_25_26[['wk','HomeTeam','AwayTeam','Date']]
+
+import locale
+
+# On définit la langue en français (si ton système le permet)
+try:
+    locale.setlocale(locale.LC_TIME, "fr_FR.UTF-8")
+except:
+    # Pour Windows, le nom est parfois différent
+    locale.setlocale(locale.LC_TIME, "French_France.1252")
+
+# On convertit en utilisant le format correspondant : %A (jour), %d (numéro), %B (mois), %Y (année)
+calendrier_25_26['Date'] = pd.to_datetime(
+    calendrier_25_26['Date'], 
+    format='%A %d %B %Y', 
+    errors='coerce'
+)
 # À placer juste après le chargement du calendrier
 
 def encoder_svg_local(chemin_fichier):

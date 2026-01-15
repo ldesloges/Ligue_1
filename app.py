@@ -13,6 +13,8 @@ calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv', encoding='utf-8-sig')
 
 
 calendrier_25_26=calendrier_25_26[['wk','HomeTeam','AwayTeam','Date']]
+# À placer juste après le chargement du calendrier
+calendrier_25_26['Date'] = pd.to_datetime(calendrier_25_26['Date'], dayfirst=True)
 
 def encoder_svg_local(chemin_fichier):
     with open(chemin_fichier, "rb") as f:

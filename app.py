@@ -274,11 +274,11 @@ def simuler_saison_et_tracker_rangs(calendrier_df):
     liste_classement= []
 
     for j in range(1, 35):
-        classement_mis_a_jour = simuler_wk(j, classement, calendrier_df)
+        classement_mis_a_jour_direct = simuler_wk(j, classement, calendrier_df)
         
-        liste_classement.append(classement_mis_a_jour.copy())
+        liste_classement.append(classement_mis_a_jour_direct.copy())
         
-        classement = classement_mis_a_jour.copy() 
+        classement = classement_mis_a_jour_direct.copy() 
         
     return liste_classement
 

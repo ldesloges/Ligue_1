@@ -65,6 +65,9 @@ for i in range(9):
 
 #Concaténation des datas
 data_historique = pd.concat(tous_les_matchs, ignore_index=True)
+ref_date = data_historique['Date'].max()
+data_historique['Days_Ago'] = (ref_date - data_historique['Date']).dt.days
+data_historique['Weight'] = np.exp(-0.002 * data_historique['Days_Ago'])
 
 HOME_GOALS_MEAN_GLOBAL = data_historique['HomeGoals'].mean()
 AWAY_GOALS_MEAN_GLOBAL = data_historique['AwayGoals'].mean()
@@ -91,10 +94,10 @@ for team in TEAMS:
         home_matches = data_historique[data_historique['HomeTeam'] == team]
         away_matches = data_historique[data_historique['AwayTeam'] == team]
 
-        Home_goals_mean_team=home_matches['HomeGoals'].mean()
-        Away_goals_mean_team=away_matches['AwayGoals'].mean()
-        Home_taken_mean_team=home_matches['AwayGoals'].mean()
-        Away_taken_mean_team=away_matches['HomeGoals'].mean()
+        Home_goals_mean_team=((home_matches['HomeGoals']*home_matches['Weight']).sum())/(home_matches['Weight'].sum())
+        Away_goals_mean_team=((away_matches['AwayGoals']*away_matches['Weight']).sum())/(away_matches['Weight'].sum())
+        Home_taken_mean_team=((home_matches['AwayGoals']*home_matches['Weight']).sum())/(home_matches['Weight'].sum())
+        Away_taken_mean_team=((away_matches['HomeGoals']*home_matches['Weight']).sum())/(home_matches['Weight'].sum())
         
         Home_goals_capacity=Home_goals_mean_team/HOME_GOALS_MEAN_GLOBAL
         Away_goals_capacity=Away_goals_mean_team/AWAY_GOALS_MEAN_GLOBAL

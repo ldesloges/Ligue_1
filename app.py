@@ -60,7 +60,7 @@ LOGOS = {
 tous_les_matchs = []
 for i in range(9):
     df = pd.read_csv(f'data/L1_{16+i}_{17+i}.csv', encoding='utf-8-sig')
-    df = df[['HomeTeam', 'AwayTeam', 'FTHG', 'FTAG']].rename(columns={'FTHG': 'HomeGoals', 'FTAG': 'AwayGoals'})
+    df = df[['HomeTeam', 'AwayTeam', 'FTHG', 'FTAG','Date']].rename(columns={'FTHG': 'HomeGoals', 'FTAG': 'AwayGoals','Date':'Date'})
     tous_les_matchs.append(df)
 
 #Concaténation des datas

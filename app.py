@@ -257,30 +257,32 @@ def simuler_saison_25_26():
 #Obtention des rangs par equipes aprés chaque journée
 def simuler_saison_et_tracker_rangs(calendrier_df):
     print("Simulation de la saison en cours ...")
+    
+    # On fait une copie locale de la base historique pour ne pas modifier 
+    # la base globale à chaque rafraîchissement de la page Streamlit
+    data_hist_temp = data_historique.copy()
 
     classement = {
         'Equipe': TEAMS,
-        'Pts': 0,           
-        'Joués': 0,         
-        'G': 0,             
-        'N': 0,              
-        'P': 0,             
-        'BP': 0,           
-        'BC': 0,            
-        'Diff': 0           
-        }
+        'Pts': 0, 'Joués': 0, 'G': 0, 'N': 0, 'P': 0, 'BP': 0, 'BC': 0, 'Diff': 0           
+    }
     classement = pd.DataFrame(classement).set_index('Equipe')
     
-    liste_classement= []
+    liste_classements = []
 
     for j in range(1, 35):
-        classement_mis_a_jour_direct = simuler_wk(j, classement, calendrier_df)
+        # AJOUT de data_hist_temp dans les arguments
+        # RÉCUPÉRATION des deux variables renvoyées
+        classement_mis_a_jour, data_hist_temp = simuler_wk(j, classement, calendrier_df, data_hist_temp)
         
-        liste_classement.append(classement_mis_a_jour_direct.copy())
+        # On trie le classement avant de l'ajouter à la liste pour que les rangs soient bons
+        classement_trie = afficher_classement_final(classement_mis_a_jour)
+        liste_classements.append(classement_trie.copy())
         
-        classement = classement_mis_a_jour_direct.copy() 
+        # On repart du classement actuel pour la journée suivante
+        classement = classement_mis_a_jour.copy() 
         
-    return liste_classement
+    return liste_classements
 
 
 

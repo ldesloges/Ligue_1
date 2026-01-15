@@ -66,10 +66,6 @@ for i in range(9):
 #Concaténation des datas
 data_historique = pd.concat(tous_les_matchs, ignore_index=True)
 data_historique.columns = data_historique.columns.str.strip()
-data_historique['Date'] = pd.to_datetime(
-    data_historique['Date'], 
-    format='%d/%m/%Y'
-).dt.as_unit('s')
 
 data_historique['Date'] = pd.to_datetime(data_historique['Date'], dayfirst=True)
 ref_date = data_historique['Date'].max()

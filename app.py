@@ -143,48 +143,6 @@ def simuler_match_poisson(equipe_dom, equipe_ext):
 
    return buts_dom,buts_ext
 
-#mise a jour du classemement apres un match
-def mettre_a_jour_classement(classement, equipe_dom, equipe_ext):
-
-
-    buts_dom=simuler_match_poisson(equipe_dom,equipe_ext)[0]
-    buts_ext=simuler_match_poisson(equipe_dom,equipe_ext)[1]
-    
-    
-    classement.loc[equipe_dom, 'Joués'] += 1
-    classement.loc[equipe_ext, 'Joués'] += 1
-    
- 
-    classement.loc[equipe_dom, 'BP'] += buts_dom
-    classement.loc[equipe_dom, 'BC'] += buts_ext
-    
-   
-    classement.loc[equipe_ext, 'BP'] += buts_ext
-    classement.loc[equipe_ext, 'BC'] += buts_dom
-    
-    
-    if buts_dom > buts_ext:
-    
-        classement.loc[equipe_dom, 'Pts'] += 3
-        classement.loc[equipe_dom, 'G'] += 1
-        classement.loc[equipe_ext, 'P'] += 1
-        
-    elif buts_dom < buts_ext:
-        
-        classement.loc[equipe_ext, 'Pts'] += 3
-        classement.loc[equipe_ext, 'G'] += 1
-        classement.loc[equipe_dom, 'P'] += 1
-        
-    else: 
-        
-        classement.loc[equipe_dom, 'Pts'] += 1
-        classement.loc[equipe_ext, 'Pts'] += 1
-        classement.loc[equipe_dom, 'N'] += 1
-        classement.loc[equipe_ext, 'N'] += 1
-        
-    classement['Diff'] = classement['BP'] - classement['BC']
-    
-    return classement 
 
 #Mettre le classement dans le bonne ordre
 def afficher_classement_final(classement):
@@ -201,25 +159,97 @@ def afficher_classement_final(classement):
     
     return classement_final
 
+def recalculate_capacity(data_hist):
+    # On recalcule les moyennes globales basées sur la base de données mise à jour
+    h_glob = (data_hist['HomeGoals'] * data_hist['Weight']).sum() / data_hist['Weight'].sum()
+    a_glob = (data_hist['AwayGoals'] * data_hist['Weight']).sum() / data_hist['Weight'].sum()
+
+    for team in TEAMS:
+        home_m = data_hist[data_hist['HomeTeam'] == team]
+        away_m = data_hist[data_hist['AwayTeam'] == team]
+
+        # Sécurité pour les promus ou équipes sans data récente
+        if home_m['Weight'].sum() < 1 or away_m['Weight'].sum() < 1:
+            promotion_L1(team)
+        else:
+            w_h, w_a = home_m['Weight'].sum(), away_m['Weight'].sum()
+            
+            # Moyennes pondérées de l'équipe
+            h_g_m = (home_m['HomeGoals'] * home_m['Weight']).sum() / w_h
+            a_g_m = (away_m['AwayGoals'] * away_m['Weight']).sum() / w_a
+            h_t_m = (home_m['AwayGoals'] * home_m['Weight']).sum() / w_h
+            a_t_m = (away_m['HomeGoals'] * away_m['Weight']).sum() / w_a
+            
+            Capacity[team] = {
+                'Home_goals_capacity': h_g_m / h_glob,
+                'Away_goals_capacity': a_g_m / a_glob,           
+                'Home_taken_capacity': h_t_m / a_glob,         
+                'Away_taken_capacity': a_t_m / h_glob,             
+            }
+    
+
+
+def mettre_a_jour_classement_direct(classement, equipe_dom, equipe_ext, b_dom, b_ext):
+    classement.loc[equipe_dom, 'Joués'] += 1
+    classement.loc[equipe_ext, 'Joués'] += 1
+    classement.loc[equipe_dom, 'BP'] += b_dom
+    classement.loc[equipe_dom, 'BC'] += b_ext
+    classement.loc[equipe_ext, 'BP'] += b_ext
+    classement.loc[equipe_ext, 'BC'] += b_dom
+    
+    if b_dom > b_ext:
+        classement.loc[equipe_dom, 'Pts'] += 3
+        classement.loc[equipe_dom, 'G'] += 1
+        classement.loc[equipe_ext, 'P'] += 1
+    elif b_dom < b_ext:
+        classement.loc[equipe_ext, 'Pts'] += 3
+        classement.loc[equipe_ext, 'G'] += 1
+        classement.loc[equipe_dom, 'P'] += 1
+    else:
+        classement.loc[equipe_dom, 'Pts'] += 1
+        classement.loc[equipe_ext, 'Pts'] += 1
+        classement.loc[equipe_dom, 'N'] += 1
+        classement.loc[equipe_ext, 'N'] += 1
+        
+    classement['Diff'] = classement['BP'] - classement['BC']
+    return classement
+
 
 #Simulation d'une journée
-def simuler_wk(j, classement, calendrier):
-
+def simuler_wk(j, classement, calendrier, data_hist):
     matchs_journee = calendrier[calendrier['wk'] == j]
+    nouveaux_matchs = []
 
     for index, match in matchs_journee.iterrows():
-        equipe_dom = match['HomeTeam']
-        equipe_ext = match['AwayTeam']
+        e_dom, e_ext = match['HomeTeam'], match['AwayTeam']
         
-        classement = mettre_a_jour_classement(classement, equipe_dom, equipe_ext) 
-    
-    return afficher_classement_final(classement)
+        # Simulation unique du score
+        b_dom, b_ext = simuler_match_poisson(e_dom, e_ext)
+        
+        # Mise à jour du classement
+        classement = mettre_a_jour_classement_direct(classement, e_dom, e_ext, b_dom, b_ext)
+        
+        nouveaux_matchs.append({
+            'HomeTeam': e_dom, 'AwayTeam': e_ext,
+            'HomeGoals': b_dom, 'AwayGoals': b_ext,
+            'Date': match['Date']
+        })
 
+    # Mise à jour de la base historique pour la journée suivante
+    df_nouveaux = pd.DataFrame(nouveaux_matchs)
+    data_hist = pd.concat([data_hist, df_nouveaux], ignore_index=True)
+    
+    # Recalcul des poids et des capacités
+    data_hist['Days_Ago'] = (data_hist['Date'].max() - data_hist['Date']).dt.days
+    data_hist['Weight'] = np.exp(-0.002 * data_hist['Days_Ago'])
+    recalculate_capacity(data_hist) 
+    
+    return classement, data_hist
 #Simulation d'une saison
 def simuler_saison_25_26():
     for teamA in TEAMS:
         for teamB in TEAMS:
-            mettre_a_jour_classement(classement,teamA,teamB)
+            mettre_a_jour_classement_direct(classement,teamA,teamB)
     print(afficher_classement_final(classement))
 
 

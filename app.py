@@ -8,7 +8,7 @@ import base64
 
 
 #Calendrier
-calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv', encoding='utf-8-sig')
+calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv')
 
 
 
@@ -59,7 +59,7 @@ LOGOS = {
 #Création de la DataFrame
 tous_les_matchs = []
 for i in range(9):
-    df = pd.read_csv(f'data/L1_{16+i}_{17+i}.csv', encoding='utf-8-sig')
+    df = pd.read_csv(f'data/L1_{16+i}_{17+i}.csv')
     df = df[['HomeTeam', 'AwayTeam', 'FTHG', 'FTAG']].rename(columns={'FTHG': 'HomeGoals', 'FTAG': 'AwayGoals'})
     tous_les_matchs.append(df)
 

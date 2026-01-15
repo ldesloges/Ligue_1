@@ -10,8 +10,6 @@ import base64
 #Calendrier
 calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv', encoding='utf-8-sig')
 
-
-
 calendrier_25_26=calendrier_25_26[['wk','HomeTeam','AwayTeam','Date']]
 
 # 1. Dictionnaire de traduction des mois

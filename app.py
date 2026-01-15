@@ -72,8 +72,8 @@ ref_date = data_historique['Date'].max()
 data_historique['Days_Ago'] = (ref_date - data_historique['Date']).dt.days
 data_historique['Weight'] = np.exp(-0.002 * data_historique['Days_Ago'])
 
-HOME_GOALS_MEAN_GLOBAL = data_historique['HomeGoals'].mean()
-AWAY_GOALS_MEAN_GLOBAL = data_historique['AwayGoals'].mean()
+HOME_GOALS_MEAN_GLOBAL = ((data_historique['HomeGoals']*data_historique['Weight']).sum())/(data_historique['Weight'].sum())
+AWAY_GOALS_MEAN_GLOBAL = ((data_historique['AwayGoals']*data_historique['Weight']).sum())/(data_historique['Weight'].sum())
 
 Ligue1_25_26=pd.read_csv(f'data/L1_25_26.csv')
 toutes_equipes = pd.concat([Ligue1_25_26['HomeTeam'], Ligue1_25_26['AwayTeam']]).unique()

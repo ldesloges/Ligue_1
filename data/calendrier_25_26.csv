@@ -1,32 +1,32 @@
 
-wk,Date,HomeTeam,AwayTeam
-1,dimanche 17 aot 2025,Rennes,Marseille
-1,dimanche 17 aot 2025,Lens,Lyon
-1,dimanche 17 aot 2025,Nice,Toulouse
-1,dimanche 17 aot 2025,Auxerre,Lorient
-1,dimanche 17 aot 2025,Brest,Lille
-1,dimanche 17 aot 2025,Angers,Paris FC
-1,dimanche 17 aot 2025,Metz,Strasbourg
-1,dimanche 17 aot 2025,Monaco,Le Havre
-1,dimanche 17 at 2025,Nantes,Paris SG
-2,dimanche 24 t 2025,Marseille,Paris FC
-2,dimanche 24 aot 2025,Lille,Monaco
-2,dimanche 24 aot 2025,Le Havre,Lens
-2,dimanche 24 at 2025,Lorient,Rennes
-2,dimanche 24 aot 2025,Nice,Auxerre
-2,dimanche 24 aot 2025,Toulouse,Brest
-2,dimanche 24 aot 2025,Lyon,Metz
-2,dimanche 24 aot 2025,Strasbourg,Nantes
-2,dimanche 24 aot 2025,Paris SG,Angers
-3,dimanche 31 aot 2025,Toulouse,Paris SG
-3,dimanche 31 aot 2025,Monaco,Strasbourg
-3,dimanche 31 at 2025,Lens,Brest
-3,dimanche 31 aot 2025,Nantes,Auxerre
-3,dimanche 31 aot 2025,Angers,Rennes
-3,dimanche 31 aot 2025,Paris FC,Metz
-3,dimanche 31 aot 2025,Le Havre,Nice
-3,dimanche 31 aot 2025,Lorient,Lille
-3,dimanche 31 aot 2025,Lyon,Marseille
+wk,Daoute,HomeTeam,AwayTeam
+1,dimanche 17 aout 2025,Rennes,Marseille
+1,dimanche 17 aout 2025,Lens,Lyon
+1,dimanche 17 aout 2025,Nice,Toulouse
+1,dimanche 17 aout 2025,Auxerre,Lorient
+1,dimanche 17 aout 2025,Brest,Lille
+1,dimanche 17 aout 2025,Angers,Paris FC
+1,dimanche 17 aout 2025,Metz,Strasbourg
+1,dimanche 17 aout 2025,Monaco,Le Havre
+1,dimanche 17 aout 2025,Nantes,Paris SG
+2,dimanche 24 aout 2025,Marseille,Paris FC
+2,dimanche 24 aout 2025,Lille,Monaco
+2,dimanche 24 aout 2025,Le Havre,Lens
+2,dimanche 24 aout 2025,Lorient,Rennes
+2,dimanche 24 aout 2025,Nice,Auxerre
+2,dimanche 24 aout 2025,Toulouse,Brest
+2,dimanche 24 aout 2025,Lyon,Metz
+2,dimanche 24 aout 2025,Strasbourg,Nantes
+2,dimanche 24 aout 2025,Paris SG,Angers
+3,dimanche 31 aout 2025,Toulouse,Paris SG
+3,dimanche 31 aout 2025,Monaco,Strasbourg
+3,dimanche 31 aout 2025,Lens,Brest
+3,dimanche 31 aout 2025,Nantes,Auxerre
+3,dimanche 31 aout 2025,Angers,Rennes
+3,dimanche 31 aout 2025,Paris FC,Metz
+3,dimanche 31 aout 2025,Le Havre,Nice
+3,dimanche 31 aout 2025,Lorient,Lille
+3,dimanche 31 aout 2025,Lyon,Marseille
 4,dimanche 14 septembre 2025,Marseille,Lorient
 4,dimanche 14 septembre 2025,Paris SG,Lens
 4,dimanche 14 septembre 2025,Auxerre,Monaco
@@ -126,24 +126,24 @@ wk,Date,HomeTeam,AwayTeam
 14,dimanche 30 novembre 2025,Lorient,Nice
 14,dimanche 30 novembre 2025,Monaco,Paris SG
 14,dimanche 30 novembre 2025,Marseille,Toulouse
-15,dimanche 7 cembre 2025,Lille,Marseille
-15,dimanche 7 dcembre 2025,Le Havre,Paris FC
-15,dimanche 7 dcembre 2025,Auxerre,Metz
-15,dimanche 7 dcembre 2025,Nantes,Lens
-15,dimanche 7 dcembre 2025,Nice,Angers
-15,dimanche 7 dcembre 2025,Brest,Monaco
-15,dimanche 7 dcembre 2025,Lorient,Lyon
-15,dimanche 7 dcembre 2025,Toulouse,Strasbourg
-15,dimanche 7 dembre 2025,Paris SG,Rennes
-16,dimanche 14 dcembre 2025,Angers,Nantes
-16,dimanche 14 dcembre 2025,Paris FC,Toulouse
-16,dimanche 14 dcembre 2025,Auxerre,Lille
-16,dimanche 14 dcembre 2025,Rennes,Brest
-16,dimanche 14 dcembre 2025,Lyon,Le Havre
-16,dimanche 14 dcembre 2025,Strasbourg,Lorient
-16,dimanche 14 dcembre 2025,Metz,Paris SG
-16,dimanche 14 dcembre 2025,Lens,Nice
-16,dimanche 14 dcembre 2025,Marseille,Monaco
+15,dimanche 7 decembre 2025,Lille,Marseille
+15,dimanche 7 decembre 2025,Le Havre,Paris FC
+15,dimanche 7 decembre 2025,Auxerre,Metz
+15,dimanche 7 decembre 2025,Nantes,Lens
+15,dimanche 7 decembre 2025,Nice,Angers
+15,dimanche 7 decembre 2025,Brest,Monaco
+15,dimanche 7 decembre 2025,Lorient,Lyon
+15,dimanche 7 decembre 2025,Toulouse,Strasbourg
+15,dimanche 7 decembre 2025,Paris SG,Rennes
+16,dimanche 14 decembre 2025,Angers,Nantes
+16,dimanche 14 decembre 2025,Paris FC,Toulouse
+16,dimanche 14 decembre 2025,Auxerre,Lille
+16,dimanche 14 decembre 2025,Rennes,Brest
+16,dimanche 14 decembre 2025,Lyon,Le Havre
+16,dimanche 14 decembre 2025,Strasbourg,Lorient
+16,dimanche 14 decembre 2025,Metz,Paris SG
+16,dimanche 14 decembre 2025,Lens,Nice
+16,dimanche 14 decembre 2025,Marseille,Monaco
 17,dimanche 4 janvier 2026,Nice,Strasbourg
 17,dimanche 4 janvier 2026,Paris SG,Paris FC
 17,dimanche 4 janvier 2026,Monaco,Lyon
@@ -171,42 +171,42 @@ wk,Date,HomeTeam,AwayTeam
 19,dimanche 25 janvier 2026,Le Havre,Monaco
 19,dimanche 25 janvier 2026,Nantes,Nice
 19,dimanche 25 janvier 2026,Marseille,Lens
-20,dimanche 1 fvrier 2026,Paris FC,Marseille
-20,dimanche 1 fvrier 2026,Lyon,Lille
-20,dimanche 1 fvrier 2026,Strasbourg,Paris SG
-20,dimanche 1 fvrier 2026,Toulouse,Auxerre
-20,dimanche 1 fvrier 2026,Lorient,Nantes
-20,dimanche 1 fvrier 2026,Monaco,Rennes
-20,dimanche 1 fvrier 2026,Lens,Le Havre
-20,dimanche 1 fvrier 2026,Nice,Brest
-20,dimanche 1 fvrier 2026,Angers,Metz
-21,dimanche 8 fvrier 2026,Paris SG,Marseille
-21,dimanche 8 fvrier 2026,Nice,Monaco
-21,dimanche 8 fvrier 2026,Brest,Lorient
-21,dimanche 8 fvrier 2026,Le Havre,Strasbourg
-21,dimanche 8 fvrier 2026,Auxerre,Paris FC
-21,dimanche 8 fvrier 2026,Nantes,Lyon
-21,dimanche 8 fvrier 2026,Lens,Rennes
-21,dimanche 8 fvrier 2026,Angers,Toulouse
-21,dimanche 8 fvrier 2026,Metz,Lille
-22,dimanche 15 fvrier 2026,Lyon,Nice
-22,dimanche 15 fvrier 2026,Marseille,Strasbourg
-22,dimanche 15 fvrier 2026,Lille,Brest
-22,dimanche 15 fvrier 2026,Le Havre,Toulouse
-22,dimanche 15 fvrier 2026,Metz,Auxerre
-22,dimanche 15 fvrier 2026,Lorient,Angers
-22,dimanche 15 fvrier 2026,Monaco,Nantes
-22,dimanche 15 fvrier 2026,Paris FC,Lens
-22,dimanche 15 fvrier 2026,Rennes,Paris SG
-23,dimanche 22 fvrier 2026,Strasbourg,Lyon
-23,dimanche 22 fvrier 2026,Lens,Monaco
-23,dimanche 22 fvrier 2026,Paris SG,Metz
-23,dimanche 22 fvrier 2026,Brest,Marseille
-23,dimanche 22 fvrier 2026,Nice,Lorient
-23,dimanche 22 fvrier 2026,Nantes,Le Havre
-23,dimanche 22 fvrier 2026,Toulouse,Paris FC
-23,dimanche 22 fvrier 2026,Angers,Lille
-23,dimanche 22 fvrier 2026,Auxerre,Rennes
+20,dimanche 1 fevrier 2026,Paris FC,Marseille
+20,dimanche 1 fevrier 2026,Lyon,Lille
+20,dimanche 1 fevrier 2026,Strasbourg,Paris SG
+20,dimanche 1 fevrier 2026,Toulouse,Auxerre
+20,dimanche 1 fevrier 2026,Lorient,Nantes
+20,dimanche 1 fevrier 2026,Monaco,Rennes
+20,dimanche 1 fevrier 2026,Lens,Le Havre
+20,dimanche 1 fevrier 2026,Nice,Brest
+20,dimanche 1 fevrier 2026,Angers,Metz
+21,dimanche 8 fevrier 2026,Paris SG,Marseille
+21,dimanche 8 fevrier 2026,Nice,Monaco
+21,dimanche 8 fevrier 2026,Brest,Lorient
+21,dimanche 8 fevrier 2026,Le Havre,Strasbourg
+21,dimanche 8 fevrier 2026,Auxerre,Paris FC
+21,dimanche 8 fevrier 2026,Nantes,Lyon
+21,dimanche 8 fevrier 2026,Lens,Rennes
+21,dimanche 8 fevrier 2026,Angers,Toulouse
+21,dimanche 8 fevrier 2026,Metz,Lille
+22,dimanche 15 fevrier 2026,Lyon,Nice
+22,dimanche 15 fevrier 2026,Marseille,Strasbourg
+22,dimanche 15 fevrier 2026,Lille,Brest
+22,dimanche 15 fevrier 2026,Le Havre,Toulouse
+22,dimanche 15 fevrier 2026,Metz,Auxerre
+22,dimanche 15 fevrier 2026,Lorient,Angers
+22,dimanche 15 fevrier 2026,Monaco,Nantes
+22,dimanche 15 fevrier 2026,Paris FC,Lens
+22,dimanche 15 fevrier 2026,Rennes,Paris SG
+23,dimanche 22 fevrier 2026,Strasbourg,Lyon
+23,dimanche 22 fevrier 2026,Lens,Monaco
+23,dimanche 22 fevrier 2026,Paris SG,Metz
+23,dimanche 22 fevrier 2026,Brest,Marseille
+23,dimanche 22 fevrier 2026,Nice,Lorient
+23,dimanche 22 fevrier 2026,Nantes,Le Havre
+23,dimanche 22 fevrier 2026,Toulouse,Paris FC
+23,dimanche 22 fevrier 2026,Angers,Lille
+23,dimanche 22 fevrier 2026,Auxerre,Rennes
 24,dimanche 1 mars 2026,Le Havre,Paris SG
 24,dimanche 1 mars 2026,Rennes,Toulouse
 24,dimanche 1 mars 2026,Monaco,Angers

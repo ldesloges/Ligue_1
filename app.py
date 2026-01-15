@@ -14,21 +14,39 @@ calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv', encoding='utf-8-sig')
 
 calendrier_25_26=calendrier_25_26[['wk','HomeTeam','AwayTeam','Date']]
 
-import locale
+# 1. Dictionnaire de traduction des mois
+mois_fr = {
+    'janvier': 'January', 'fevrier': 'February', 'mars': 'March', 'avril': 'April',
+    'mai': 'May', 'juin': 'June', 'juillet': 'July', 'août': 'August', 'aout': 'August',
+    'septembre': 'September', 'octobre': 'October', 'novembre': 'November', 'decembre': 'December',
+    'décembre': 'December'
+}
 
-# On définit la langue en français (si ton système le permet)
-try:
-    locale.setlocale(locale.LC_TIME, "fr_FR.UTF-8")
-except:
-    # Pour Windows, le nom est parfois différent
-    locale.setlocale(locale.LC_TIME, "French_France.1252")
+def formater_date_calendrier(date_str):
+    if not isinstance(date_str, str): return date_str
+    
+    # Nettoyage (minuscule et suppression accents)
+    s = date_str.lower().replace('û', 'u').replace('é', 'e')
+    parts = s.split() # ["dimanche", "17", "aout", "2025"]
+    
+    if len(parts) >= 4:
+        jour = parts[1]
+        mois = mois_fr.get(parts[2], parts[2])
+        annee = parts[3]
+        # On crée une date temporaire pour la conversion
+        temp_date = pd.to_datetime(f"{jour} {mois} {annee}", format='%d %B %Y')
+        # On retourne le format final voulu JJ/MM/AAAA
+        return temp_date.strftime('%d/%m/%Y')
+    return date_str
 
-# On convertit en utilisant le format correspondant : %A (jour), %d (numéro), %B (mois), %Y (année)
-calendrier_25_26['Date'] = pd.to_datetime(
-    calendrier_25_26['Date'], 
-    format='%A %d %B %Y', 
-    errors='coerce'
-)
+# 2. Application au calendrier
+# On remplace la colonne Date par le format JJ/MM/AAAA
+calendrier_25_26['Date'] = calendrier_25_26['Date'].apply(formater_date_calendrier)
+
+# 3. IMPORTANT : Pour que tes calculs de simulation fonctionnent,
+# il faut quand même une version au format "datetime" interne
+calendrier_25_26['Date_DT'] = pd.to_datetime(calendrier_25_26['Date'], format='%d/%m/%Y')
+
 # À placer juste après le chargement du calendrier
 
 def encoder_svg_local(chemin_fichier):

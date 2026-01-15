@@ -273,14 +273,14 @@ def simuler_saison_et_tracker_rangs(calendrier_df):
     for j in range(1, 35):
         # AJOUT de data_hist_temp dans les arguments
         # RÉCUPÉRATION des deux variables renvoyées
-        classement_mis_a_jour, data_hist_temp = simuler_wk(j, classement, calendrier_df, data_hist_temp)
+        classement_mis_a_jour_direct, data_hist_temp = simuler_wk(j, classement, calendrier_df, data_hist_temp)
         
         # On trie le classement avant de l'ajouter à la liste pour que les rangs soient bons
-        classement_trie = afficher_classement_final(classement_mis_a_jour)
+        classement_trie = afficher_classement_final(classement_mis_a_jour_direct)
         liste_classements.append(classement_trie.copy())
         
         # On repart du classement actuel pour la journée suivante
-        classement = classement_mis_a_jour.copy() 
+        classement = classement_mis_a_jour_direct.copy() 
         
     return liste_classements
 

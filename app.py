@@ -557,16 +557,16 @@ import plotly.express as px
 
 
 
-# 1. On récupère les données (une seule simulation comme avant)
+# On récupère les données (une seule simulation comme avant)
 import plotly.graph_objects as go
 
-# 1. On prépare les données (comme avant)
+# On prépare les données (comme avant)
 liste_classements = simuler_saison_et_tracker_rangs(calendrier_25_26)
 
-# 2. Création de la figure de base
+#Création de la figure de base
 fig = go.Figure()
 
-# 3. Ajout des lignes pour chaque équipe (statiques au début)
+# Ajout des lignes pour chaque équipe (statiques au début)
 for team in TEAMS:
     # On initialise avec la journée 1
     fig.add_trace(go.Scatter(
@@ -577,7 +577,7 @@ for team in TEAMS:
         line=dict(width=2)
     ))
 
-# 4. CRÉATION DES FRAMES (C'est ici que les logos bougent)
+#CRÉATION DES FRAMES (C'est ici que les logos bougent)
 frames = []
 for i in range(len(liste_classements)):
     frame_data = []
@@ -610,9 +610,6 @@ for i in range(len(liste_classements)):
 fig.frames = frames
 
 
-
-# 5. CONFIGURATION DU LAYOUT ET DES BOUTONS
-# 5. CONFIGURATION DU LAYOUT AVEC GLISSEMENT FLUIDE
 fig.update_layout(
     title="Simulation Ligue 1 McDonald 2025-2026",
     title_x=0.1,
@@ -641,7 +638,7 @@ fig.update_layout(
     )]
 )
 
-# --- ZONES COLORÉES ---
+# zone colofrés
 fig.add_hrect(y0=0.5, y1=3.5, fillcolor="blue", opacity=0.08, 
               annotation_text="LIGUE DES CHAMPIONS", annotation_position="inside right")
 fig.add_hrect(y0=17.5, y1=18.5, fillcolor="red", opacity=0.08, 

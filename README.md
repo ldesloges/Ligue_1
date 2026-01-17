@@ -36,4 +36,4 @@ Si vous souhaitez exécuter ce projet sur votre machine :
 
 1. Clonez le dépôt :
    ```bash
-   git clone [https://github.com/VOTRE_NOM_UTILISATEUR/VOTRE_REPO.git](https://github.com/VOTRE_NOM_UTILISATEUR/VOTRE_REPO.git)
+   git clone [[https://github.com/VOTRE_NOM_UTILISATEUR/VOTRE_REPO.git](https://github.com/VOTRE_NOM_UTILISATEUR/VOTRE_REPO.git)](https://github.com/ldesloges/Ligue_1.git)

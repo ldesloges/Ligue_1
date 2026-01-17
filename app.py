@@ -642,7 +642,7 @@ fig.update_layout(
             label="▶ Lancer la simulation",
             method="animate",
             args=[None, {
-                "frame": {"duration": 2000, "redraw": True},
+                "frame": {"duration": 1200, "redraw": True},
                 "fromcurrent": True,
                 "transition": {"duration": 1800, "easing": "cubic-in-out"}
             }]

@@ -551,9 +551,12 @@ if st.button("Simuler le match"):
         
 
 
+# 1. On prépare les données (comme avant)
+
+# 2. Création de la figure de base
 fig = go.Figure()
 
-#Ajout des lignes pour chaque équipe (statiques au début)
+# 3. Ajout des lignes pour chaque équipe (statiques au début)
 for team in TEAMS:
     # On initialise avec la journée 1
     fig.add_trace(go.Scatter(
@@ -564,7 +567,7 @@ for team in TEAMS:
         line=dict(width=2)
     ))
 
-
+# 4. CRÉATION DES FRAMES (C'est ici que les logos bougent)
 frames = []
 for i in range(len(liste_classements)):
     frame_data = []
@@ -598,7 +601,8 @@ fig.frames = frames
 
 
 
-#layout config
+# 5. CONFIGURATION DU LAYOUT ET DES BOUTONS
+# 5. CONFIGURATION DU LAYOUT AVEC GLISSEMENT FLUIDE
 fig.update_layout(
     title="Simulation Ligue 1 McDonald 2025-2026",
     title_x=0.1,

@@ -3,8 +3,7 @@ import numpy as np
 from scipy.stats import poisson
 from matplotlib import pyplot as plt
 import streamlit as st
-import plotly.express as px
-import plotly.graph_objects as go
+
 import base64
 
 
@@ -548,10 +547,21 @@ if st.button("Simuler le match"):
         """
         st.markdown(html_score, unsafe_allow_html=True)
         
-        
+        # Petit feedback technique
 
+#tracer_evolution_classement(creer_historique_par_club(simuler_saison_et_tracker_rangs(calendrier_25_26),TEAMS))
+
+import plotly.express as px
+
+
+
+
+
+# 1. On récupère les données (une seule simulation comme avant)
+import plotly.graph_objects as go
 
 # 1. On prépare les données (comme avant)
+liste_classements = simuler_saison_et_tracker_rangs(calendrier_25_26)
 
 # 2. Création de la figure de base
 fig = go.Figure()
@@ -631,7 +641,7 @@ fig.update_layout(
     )]
 )
 
-#zone colorés
+# --- ZONES COLORÉES ---
 fig.add_hrect(y0=0.5, y1=3.5, fillcolor="blue", opacity=0.08, 
               annotation_text="LIGUE DES CHAMPIONS", annotation_position="inside right")
 fig.add_hrect(y0=17.5, y1=18.5, fillcolor="red", opacity=0.08, 

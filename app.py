@@ -3,7 +3,8 @@ import numpy as np
 from scipy.stats import poisson
 from matplotlib import pyplot as plt
 import streamlit as st
-
+import plotly.express as px
+import plotly.graph_objects as go
 import base64
 
 
@@ -11,7 +12,7 @@ import base64
 calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv', encoding='utf-8-sig')
 calendrier_25_26=calendrier_25_26[['wk','HomeTeam','AwayTeam','Date']]
 
-# 1. Dictionnaire de traduction des mois
+#Dictionnaire de traduction des mois
 mois_fr = {
     'janvier': 'January', 'fevrier': 'February', 'mars': 'March', 'avril': 'April',
     'mai': 'May', 'juin': 'June', 'juillet': 'July', 'août': 'August', 'aout': 'August',
@@ -22,9 +23,9 @@ mois_fr = {
 def formater_date_calendrier(date_str):
     if not isinstance(date_str, str): return date_str
     
-    # Nettoyage (minuscule et suppression accents)
+    # Nettoyage 
     s = date_str.lower().replace('û', 'u').replace('é', 'e')
-    parts = s.split() # ["dimanche", "17", "aout", "2025"]
+    parts = s.split() 
     
     if len(parts) >= 4:
         jour = parts[1]
@@ -36,11 +37,10 @@ def formater_date_calendrier(date_str):
         return temp_date.strftime('%d/%m/%Y')
     return date_str
 
-# 2. Application au calendrier
-# On remplace la colonne Date par le format JJ/MM/AAAA
-calendrier_25_26['Date'] = calendrier_25_26['Date'].apply(formater_date_calendrier)
-
-calendrier_25_26['Date_DT'] = pd.to_datetime(calendrier_25_26['Date'], format='%d/%m/%Y')
+#Application au calendrier
+#On remplace la colonne Date par le format JJ/MM/AAAA
+calendrier_25_26['Date']=calendrier_25_26['Date'].apply(formater_date_calendrier)
+calendrier_25_26['Date_DT']=pd.to_datetime(calendrier_25_26['Date'], format='%d/%m/%Y')
 
 
 def encoder_svg_local(chemin_fichier):
@@ -49,7 +49,7 @@ def encoder_svg_local(chemin_fichier):
         base64_string = base64.b64encode(image_data).decode("utf-8")
         return f"data:image/svg+xml;base64,{base64_string}"
 
-# Utilise directement l'URL de l'image que tu as hébergée
+# Logo LIgue 1
 logo_url = "https://preview.redd.it/nouveau-logo-de-la-ligue-1-mcdonalds-pour-la-saison-2024-v0-pespi1nju2rc1.jpeg?width=1080&crop=smart&auto=webp&s=adc08fd2b07e1030b8ce301533d1678eb2d94d5c" 
 
 st.markdown(
@@ -81,25 +81,24 @@ LOGOS = {
     "Lille": encoder_svg_local("include/Lille.svg"),
     "Paris FC": "https://upload.wikimedia.org/wikipedia/fr/d/db/Logo_Paris_FC_2011.svg",
     "Toulouse":encoder_svg_local("include/Toulouse.svg")
-    # ... et ainsi de suite
 }
 
-
-#Création de la DataFrame
+#la big dataframe
 tous_les_matchs = []
 for i in range(9):
     df = pd.read_csv(f'data/L1_{16+i}_{17+i}.csv', encoding='utf-8-sig')
     df = df[['HomeTeam', 'AwayTeam', 'FTHG', 'FTAG','Date']].rename(columns={'FTHG': 'HomeGoals', 'FTAG': 'AwayGoals','Date':'Date'})
     tous_les_matchs.append(df)
 
-#Concaténation des datas
 data_historique = pd.concat(tous_les_matchs, ignore_index=True)
 data_historique.columns = data_historique.columns.str.strip()
 
 data_historique['Date'] = pd.to_datetime(data_historique['Date'], dayfirst=True)
 ref_date = data_historique['Date'].max()
 data_historique['Days_Ago'] = (ref_date - data_historique['Date']).dt.days
-#creation des poids temporels
+
+# J'ai choisi un coefficient d'amortissement de 0.002 
+# pour donner plus d'importance aux 5 derniers matchs.
 data_historique['Weight'] = np.exp(-0.002 * data_historique['Days_Ago'])
 
 HOME_GOALS_MEAN_GLOBAL = ((data_historique['HomeGoals']*data_historique['Weight']).sum())/(data_historique['Weight'].sum())
@@ -109,7 +108,7 @@ Ligue1_25_26=pd.read_csv(f'data/L1_25_26.csv')
 toutes_equipes = pd.concat([Ligue1_25_26['HomeTeam'], Ligue1_25_26['AwayTeam']]).unique()
 TEAMS = list(toutes_equipes)
 
-#Attribution de apacité a marquer et a ecaisser a domicile et a l'exterieur
+#Attribution des capacité a marquer et a encaisser a domicile et a l'exterieur
 Capacity={}
 
 def promotion_L1(team_promu):
@@ -204,7 +203,7 @@ def recalculate_capacity(data_hist):
         else:
             w_h, w_a = home_m['Weight'].sum(), away_m['Weight'].sum()
             
-            # Moyennes pondérées de l'équipe
+            #Moyennes pondérées de l'équipe
             h_g_m = (home_m['HomeGoals'] * home_m['Weight']).sum() / w_h
             a_g_m = (away_m['AwayGoals'] * away_m['Weight']).sum() / w_a
             h_t_m = (home_m['AwayGoals'] * home_m['Weight']).sum() / w_h
@@ -256,7 +255,7 @@ def simuler_wk(j, classement, calendrier, data_hist):
         # Simulation unique du score
         b_dom, b_ext = simuler_match_poisson(e_dom, e_ext)
         
-        # Mise à jour du classement
+        #Mise à jour du classement
         classement = mettre_a_jour_classement_direct(classement, e_dom, e_ext, b_dom, b_ext)
         
         nouveaux_matchs.append({
@@ -265,11 +264,11 @@ def simuler_wk(j, classement, calendrier, data_hist):
             'Date': match['Date_DT']
         })
 
-    # Mise à jour de la base historique pour la journée suivante
+    #Mise à jour de la base historique pour la journée suivante
     df_nouveaux = pd.DataFrame(nouveaux_matchs)
     data_hist = pd.concat([data_hist, df_nouveaux], ignore_index=True)
     
-    # Recalcul des poids et des capacités
+    #Recalcul des poids et des capacités
     data_hist['Days_Ago'] = (data_hist['Date'].max() - data_hist['Date']).dt.days
     data_hist['Weight'] = np.exp(-0.002 * data_hist['Days_Ago'])
     recalculate_capacity(data_hist) 
@@ -301,8 +300,7 @@ def simuler_saison_et_tracker_rangs(calendrier_df):
     liste_classements = []
 
     for j in range(1, 35):
-        # AJOUT de data_hist_temp dans les arguments
-        # RÉCUPÉRATION des deux variables renvoyées
+        
         classement_mis_a_jour_direct, data_hist_temp = simuler_wk(j, classement, calendrier_df, data_hist_temp)
         
         # On trie le classement avant de l'ajouter à la liste pour que les rangs soient bons
@@ -365,8 +363,6 @@ def tracer_evolution_classement(TEAMS):
     plt.show()
 
 def simuler_monte_carlo(n_simulations=1000):
-    # 1. Pré-calcul des capacités pour éviter de chercher dans le dictionnaire Capacity à chaque match
-    # Format : { Equipe: (Capa_Buts_Dom, Capa_Buts_Ext, Capa_Pris_Dom, Capa_Pris_Ext) }
     capa_fast = {t: (
         Capacity[t]['Home_goals_capacity'], 
         Capacity[t]['Away_goals_capacity'],
@@ -374,30 +370,29 @@ def simuler_monte_carlo(n_simulations=1000):
         Capacity[t]['Away_taken_capacity']
     ) for t in TEAMS}
 
-    # 2. Conversion du calendrier en liste de tuples (plus rapide que de lire le DataFrame)
+    #Conversion du calendrier en liste de tuples (plus rapide que de lire le DataFrame)
     matchs_liste = list(calendrier_25_26[['HomeTeam', 'AwayTeam']].itertuples(index=False, name=None))
     
     resultats_positions = {team: [] for team in TEAMS}
     progress_bar = st.progress(0)
 
     for i in range(n_simulations):
-        # On utilise un dictionnaire simple {Equipe: [Points, Diff, ButsPour]}
-        # On ne touche pas au DataFrame Pandas ici pour gagner du temps
+        
         scores = {team: [0, 0, 0] for team in TEAMS}
 
         for h_team, a_team in matchs_liste:
-            # Récupération ultra-rapide des capacités
+           
             c_h = capa_fast[h_team]
             c_a = capa_fast[a_team]
 
-            # Calcul des lambdas
+            
             l_dom = HOME_GOALS_MEAN_GLOBAL * c_h[0] * c_a[3]
             l_ext = AWAY_GOALS_MEAN_GLOBAL * c_a[1] * c_h[2]
 
-            # Simulation des buts (NumPy génère les deux d'un coup)
+            
             b_h, b_a = np.random.poisson([l_dom, l_ext])
 
-            # Mise à jour des points
+            
             if b_h > b_a:
                 scores[h_team][0] += 3
             elif b_a > b_h:
@@ -406,17 +401,15 @@ def simuler_monte_carlo(n_simulations=1000):
                 scores[h_team][0] += 1
                 scores[a_team][0] += 1
             
-            # Mise à jour Diff et BP
+           
             scores[h_team][1] += (b_h - b_a)
             scores[h_team][2] += b_h
             scores[a_team][1] += (b_a - b_h)
             scores[a_team][2] += b_a
 
-        # Tri du classement (Critères : Points, puis Diff, puis BP)
-        # sorted() est extrêmement performant en Python
+        
         classement_trie = sorted(scores.items(), key=lambda x: (x[1][0], x[1][1], x[1][2]), reverse=True)
         
-        # Enregistrement des rangs
         for rang, (team, _) in enumerate(classement_trie, 1):
             resultats_positions[team].append(rang)
         
@@ -445,7 +438,7 @@ def calculer_stats_probabilites(resultats_positions, n_simulations):
 import plotly.express as px
 
 def tracer_heatmap_probabilites(resultats_positions):
-    # 1. On calcule le rang moyen pour trier les équipes verticalement
+    #On calcule le rang moyen pour trier les équipes verticalement
     # Cela permet d'avoir une belle diagonale sur le graphique
     rangs_moyens = {team: np.mean(ranks) for team, ranks in resultats_positions.items()}
     equipes_triees = sorted(TEAMS, key=lambda x: rangs_moyens[x])
@@ -473,7 +466,7 @@ def tracer_heatmap_probabilites(resultats_positions):
         title="Où vont-ils finir ? (Probabilités par position)",
         xaxis_title="Rang au classement",
         yaxis_title="Équipe",
-        xaxis=dict(dtick=1), # Affiche tous les numéros de 1 à 18
+        xaxis=dict(dtick=1), 
         height=700
     )
     
@@ -502,7 +495,7 @@ if st.button("Lancer l'Analyse Statistique", key="bouton_stats_1"):
         }).background_gradient(cmap='Blues', subset=['Champion (%)', 'Top 3 (%)'])
           .background_gradient(cmap='Reds', subset=['Relégation (%)']))
         
-        # 2. Affichage de la Heatmap (Visualisation de l'incertitude)
+        #Affichage de la Heatmap (Visualisation de l'incertitude)
         st.subheader("🔥 Distribution des probabilités de classement")
         fig_heatmap = tracer_heatmap_probabilites(resultats)
         st.plotly_chart(fig_heatmap, use_container_width=True)
@@ -528,12 +521,11 @@ if st.button("Simuler le match"):
         st.warning("Veuillez choisir deux équipes différentes.")
     else:
         
-        # 2. Simulation du score
+        #Simulation du score
         resultat=simuler_match_poisson(equipe_a,equipe_b)
         b_a = resultat[0]
         b_b = resultat[1]
 
-        # 3. Affichage Propre (Sans f-string complexe pour éviter les erreurs d'accolades)
         logo_a = LOGOS.get(equipe_a, "")
         logo_b = LOGOS.get(equipe_b, "")
 
@@ -556,26 +548,12 @@ if st.button("Simuler le match"):
         """
         st.markdown(html_score, unsafe_allow_html=True)
         
-        # Petit feedback technique
-
-#tracer_evolution_classement(creer_historique_par_club(simuler_saison_et_tracker_rangs(calendrier_25_26),TEAMS))
-
-import plotly.express as px
+        
 
 
-
-
-
-# 1. On récupère les données (une seule simulation comme avant)
-import plotly.graph_objects as go
-
-# 1. On prépare les données (comme avant)
-liste_classements = simuler_saison_et_tracker_rangs(calendrier_25_26)
-
-# 2. Création de la figure de base
 fig = go.Figure()
 
-# 3. Ajout des lignes pour chaque équipe (statiques au début)
+#Ajout des lignes pour chaque équipe (statiques au début)
 for team in TEAMS:
     # On initialise avec la journée 1
     fig.add_trace(go.Scatter(
@@ -586,7 +564,7 @@ for team in TEAMS:
         line=dict(width=2)
     ))
 
-# 4. CRÉATION DES FRAMES (C'est ici que les logos bougent)
+
 frames = []
 for i in range(len(liste_classements)):
     frame_data = []
@@ -620,8 +598,7 @@ fig.frames = frames
 
 
 
-# 5. CONFIGURATION DU LAYOUT ET DES BOUTONS
-# 5. CONFIGURATION DU LAYOUT AVEC GLISSEMENT FLUIDE
+#layout config
 fig.update_layout(
     title="Simulation Ligue 1 McDonald 2025-2026",
     title_x=0.1,
@@ -650,7 +627,7 @@ fig.update_layout(
     )]
 )
 
-# --- ZONES COLORÉES ---
+#zone colorés
 fig.add_hrect(y0=0.5, y1=3.5, fillcolor="blue", opacity=0.08, 
               annotation_text="LIGUE DES CHAMPIONS", annotation_position="inside right")
 fig.add_hrect(y0=17.5, y1=18.5, fillcolor="red", opacity=0.08, 

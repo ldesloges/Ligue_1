@@ -7,9 +7,8 @@ import streamlit as st
 import base64
 
 
-#Calendrier
+#Téléchargement calendrier
 calendrier_25_26=pd.read_csv(f'data/calendrier_25_26.csv', encoding='utf-8-sig')
-
 calendrier_25_26=calendrier_25_26[['wk','HomeTeam','AwayTeam','Date']]
 
 # 1. Dictionnaire de traduction des mois
@@ -41,11 +40,8 @@ def formater_date_calendrier(date_str):
 # On remplace la colonne Date par le format JJ/MM/AAAA
 calendrier_25_26['Date'] = calendrier_25_26['Date'].apply(formater_date_calendrier)
 
-# 3. IMPORTANT : Pour que tes calculs de simulation fonctionnent,
-# il faut quand même une version au format "datetime" interne
 calendrier_25_26['Date_DT'] = pd.to_datetime(calendrier_25_26['Date'], format='%d/%m/%Y')
 
-# À placer juste après le chargement du calendrier
 
 def encoder_svg_local(chemin_fichier):
     with open(chemin_fichier, "rb") as f:
@@ -103,6 +99,7 @@ data_historique.columns = data_historique.columns.str.strip()
 data_historique['Date'] = pd.to_datetime(data_historique['Date'], dayfirst=True)
 ref_date = data_historique['Date'].max()
 data_historique['Days_Ago'] = (ref_date - data_historique['Date']).dt.days
+#creation des poids temporels
 data_historique['Weight'] = np.exp(-0.002 * data_historique['Days_Ago'])
 
 HOME_GOALS_MEAN_GLOBAL = ((data_historique['HomeGoals']*data_historique['Weight']).sum())/(data_historique['Weight'].sum())
@@ -612,7 +609,7 @@ for i in range(len(liste_classements)):
                 source=LOGOS[team],
                 xref="x", yref="y",
                 x=x_pos, y=y_pos,
-                sizex=2, sizey=2,
+                sizex=1, sizey=1,
                 xanchor="center", yanchor="middle",
                 layer="above"
             ))

@@ -636,7 +636,7 @@ fig.update_layout(
             }]
         )]
     )]
-)
+) 
 
 # zone colofrés
 fig.add_hrect(y0=0.5, y1=3.5, fillcolor="blue", opacity=0.08, 
